@@ -10,7 +10,7 @@ class Piece {
     this.playerNumber = args.player_number;
     this.selected = args.selected ? args.selected : false;
     this.id = args.id;
-    this.hasMoved = args.has_moved;
+    this.hasMoved = args.has_moved ? args.has_moved : false;
     this.type = args.type;
   }
 
@@ -50,9 +50,27 @@ class Piece {
       id: this.id,
       has_moved: this.hasMoved
     }
-    // let pieceFactory = new PieceFactory(_piece);
-    // return pieceFactory.build();
     return new this.constructor(_piece);
+  }
+
+  asJson() {
+    return {
+      player_number: this.playerNumber, 
+      selected: this.selected,
+      id: this.id,
+      has_moved: this.hasMoved,
+      type: this.type
+    };
+  }
+
+  // actions
+
+  select() {
+    this.selected = true;
+  }
+
+  deselect() {
+    this.selected = false;
   }
 }
 

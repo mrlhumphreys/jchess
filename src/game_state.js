@@ -90,6 +90,28 @@ class GameState {
     });
   }
 
+
+  opponentOf(playerNumber) { 
+    return playerNumber == 1 ? 2 : 1;
+  }
+
+  opponent() {
+    return this.opponentOf(this.currentPlayerNumber);
+  }
+
+  // actions
+
+  performMove(from, to, captured) { 
+    if (from.id != to.id) {
+      if (exists(captured)) {
+        captured.removePiece();
+      }
+      let fromPiece = from.piece;
+      to.addPiece(fromPiece);
+      from.removePiece();
+    }
+  }
+
   move(fromId, toId) { 
     let from = this.squares.findSquare(fromId);
     let to = this.squares.findSquare(toId);
@@ -101,28 +123,30 @@ class GameState {
       let rookTo = this.squares.findSquare(rookCastleMove.toId);
       this.performMove(rookFrom, rookTo, null);
     }
-
+    
     let capturedSquare = this.capturedSquare(from, to);
     this.performMove(from, to, capturedSquare);
   }
 
-  performMove(from, to, captured) { 
-    if (from.id != to.id) {
-      if (exists(captured)) {
-        captured.piece = null;
-      }
-      let fromPiece = from.piece;
-      to.piece = fromPiece;
-      from.piece = null;
+  selectPiece(squareId) {
+    let square = this.findSquare(squareId); 
+    if (exists(square)) {
+      square.select();
     }
   }
 
-  opponentOf(playerNumber) { 
-    return playerNumber == 1 ? 2 : 1;
+  deselectPiece(squareId) {
+    let square = this.findSquare(squareId);
+    if (exists(square)) {
+      square.deselect();
+    }
   }
 
-  opponent() {
-    return this.opponentOf(this.currentPlayerNumber);
+  promote(squareId, pieceType) {
+    let square = this.findSquare(squareId);
+    if (exists(square)) {
+      square.promote(pieceType);
+    }
   }
 }
 

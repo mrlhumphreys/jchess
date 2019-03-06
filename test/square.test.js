@@ -1,6 +1,7 @@
 import Square from '../src/square'
 import Point from '../src/point'
 import Rook from '../src/rook'
+import Queen from '../src/queen'
 
 describe('Square', () => {
   describe('occupied', () => {
@@ -116,6 +117,79 @@ describe('Square', () => {
       expect(dup.constructorName).toEqual('Square');
       expect(dup.x).toEqual(0);
       expect(dup.y).toEqual(0);
+    });
+  });
+
+  describe('select', () => {
+    describe('with a piece', () => {
+      it('must select the piece', () => {
+        let square = new Square({id: 'a1', x: 0, y: 0, piece: { id: 1, player_number: 1, type: 'pawn', selected: false }});
+        square.select()
+        expect(square.piece.selected).toBe(true);
+      });
+    });
+
+    describe('without a piece', () => {
+      it('must do nothing', () => {
+        let square = new Square({id: 'a1', x: 0, y: 0, piece: null});
+        square.select()
+        expect(square.piece).toBe(null);
+      });
+    });
+  });
+
+  describe('deselect', () => {
+    describe('with a piece', () => {
+      it('must deselect the piece', () => {
+        let square = new Square({id: 'a1', x: 0, y: 0, piece: { id: 1, player_number: 1, type: 'pawn', selected: true }});
+        square.deselect()
+        expect(square.piece.selected).toBe(false);
+      });
+    });
+
+    describe('without a piece', () => {
+      it('must do nothing', () => {
+        let square = new Square({id: 'a1', x: 0, y: 0, piece: null});
+        square.deselect()
+        expect(square.piece).toBe(null);
+      });
+    });
+  });
+
+  describe('removePiece', () => {
+    it('must set the piece to null', () => {
+      let square = new Square({id: 'a1', x: 0 , y: 0, piece: {id: 1, player_number: 2, type: 'rook'}});
+      square.removePiece();
+      expect(square.piece).toBe(null);
+    });
+  });
+
+  describe('addPiece', () => {
+    it('must add the piece to the square', () => {
+      let square = new Square({id: 'a1', x: 0, y: 0, piece: null});
+      let piece = new Rook({id: 1, player_number: 2, type: 'rook'});
+      square.addPiece(piece);
+      expect(square.piece).toEqual(piece);
+    });
+  });
+
+  describe('promote', () => {
+    describe('with a piece', () => {
+      it('must change the piece type', () => {
+        let square = new Square({id: 'a8', x: 0, y: 0, piece: { id: 17, player_number: 1, type: 'pawn' }});
+        square.promote('queen');
+        expect(square.piece.constructor).toEqual(Queen);
+        expect(square.piece.type).toEqual('queen');
+        expect(square.piece.id).toEqual(17);
+      });
+    });
+
+    describe('without a piece', () => {
+      it('must not do anything', () => {
+        let square = new Square({id: 'a8', x: 0, y: 0, piece: null});
+        square.promote('queen');
+        expect(square.piece).toBe(null);
+      });
     });
   });
 });

@@ -87,6 +87,8 @@ const fixtureDefinitions = {
     klass: Match,
     args: { 
       id: 1,
+      currentMove: {},
+      promotion: false,
       game_state: {
         current_player_number: 1,
         last_double_step_pawn_id: null,

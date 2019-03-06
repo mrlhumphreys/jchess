@@ -1,4 +1,5 @@
 import Piece from '../src/piece'
+import Rook from '../src/rook'
 
 describe("Piece", () => {
   describe("canMoveFrom", () => {
@@ -80,6 +81,36 @@ describe("Piece", () => {
       expect(piece.id).toEqual(dup.id);
       expect(piece.playerNumber).toEqual(dup.playerNumber);
       expect(piece.constructor).toEqual(dup.constructor);
+    });
+  });
+
+  describe('asJson', () => {
+    it('serialises the piece', () => {
+      let piece = new Rook({id: 1, player_number: 2, type: 'rook'}); 
+      let json = {
+        player_number: 2,
+        selected: false,
+        id: 1,
+        has_moved: false,
+        type: 'rook'
+      };
+      expect(piece.asJson()).toEqual(json);
+    });
+  });
+
+  describe('select', () => {
+    it('must mark the piece as selected', () => {
+      let piece = new Piece({id: 1, player_number: 1, selected: false}); 
+      piece.select();
+      expect(piece.selected).toBe(true);
+    });
+  });
+
+  describe('deselect', () => {
+    it('must mark the piece as not selected', () => {
+      let piece = new Piece({id: 1, player_number: 1, selected: true}); 
+      piece.deselect();
+      expect(piece.selected).toBe(false);
     });
   });
 });

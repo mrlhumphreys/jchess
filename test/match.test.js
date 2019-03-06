@@ -1,4 +1,5 @@
 import fixtures from './fixtures'
+import Queen from '../src/queen'
 
 describe('match', () => {
   describe('selectedSquare', () => {
@@ -141,6 +142,87 @@ describe('match', () => {
       let to = match.findSquare('a8');
 
       expect(match.pawnMoveToLastRank(from, to)).toBe(true); 
+    });
+  });
+
+  describe('selectPiece', () => {
+    it('must select a piece', () => {
+      let match = fixtures('match');
+      match.selectPiece('d7');
+      let square = match.findSquare('d7');
+      expect(square.piece.selected).toBe(true);
+    });
+  });
+
+  describe('deselectPiece', () => {
+    it('must deselect a piece', () => {
+      let match = fixtures('match', {
+        game_state: {
+          squares: [
+            { id: 'd7', x: 3, y: 1, piece: { id: 12, player_number: 2, type: 'pawn', selected: true } } 
+          ]
+        }
+      });
+      match.deselectPiece('d7');
+      let square = match.findSquare('d7');
+      expect(square.piece.selected).toBe(false);
+    });
+  });
+
+  describe('move', () => {
+    it('must move the piece', () => {
+      let match = fixtures('match');
+      match.move('d2', 'd3');
+      let from = match.findSquare('d2');
+      let to = match.findSquare('d3');
+      expect(from.occupied()).toBe(false);
+      expect(to.occupied()).toBe(true);
+    });
+  });
+
+  describe('setupPromotion', () => {
+    it('must set the currentMove', () => {
+      let match = fixtures('match');
+      let move = { fromId: 'd2', toId: 'd3' };
+      match.setupPromotion(move.fromId, move.toId);
+      expect(match.currentMove).toEqual(move);
+    });
+
+    it('must set the promotion to true', () => {
+      let match = fixtures('match');
+      match.setupPromotion('d2', 'd3');
+      expect(match.promotion).toBe(true);
+    });
+  });
+
+  describe('teardownPromotion', () => {
+    it('must set the currentMove to null', () => {
+      let match = fixtures('match', {
+        currentMove: { fromId: 'd2', toId: 'd3' },
+        promotion: true
+      });
+      match.teardownPromotion();
+      expect(match.currentMove).toEqual({});
+    });
+
+    it('must set the promotion to false', () => {
+      let match = fixtures('match', {
+        currentMove: { fromId: 'd2', toId: 'd3' },
+        promotion: true
+      });
+      match.teardownPromotion();
+      expect(match.promotion).toBe(false);
+    });
+  });
+
+  describe('promote', () => {
+    it('must promote the piece', () => {
+      let match = fixtures('match');
+
+      match.promote('a8', 'queen');
+
+      let square = match.findSquare('a8');
+      expect(square.piece.constructor).toEqual(Queen);
     });
   });
 });

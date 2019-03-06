@@ -66,6 +66,36 @@ class Square {
     _square.piece = _piece;
     return _square;
   }
+
+  // actions
+
+  select() {
+    if (exists(this.piece)) {
+      this.piece.select();
+    }
+  }
+
+  deselect() {
+    if (exists(this.piece)) {
+      this.piece.deselect();
+    } 
+  }
+
+  removePiece() {
+    this.piece = null;
+  }
+
+  addPiece(piece) {
+    this.piece = piece;
+  }
+
+  promote(pieceType) {
+    if (exists(this.piece)) {
+      let args = Object.assign({}, this.piece.asJson(), { type: pieceType });
+      let pieceFactory = new PieceFactory(args);
+      this.piece = pieceFactory.build();
+    }
+  }
 }
 
 export default Square

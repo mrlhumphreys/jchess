@@ -1,10 +1,12 @@
 import GameState from '../src/game_state'
+import Queen from '../src/queen'
 import Rook from '../src/rook'
 import Bishop from '../src/bishop'
 import King from '../src/king'
 import Pawn from '../src/pawn'
 import Square from '../src/square'
 import SquareSet from '../src/square_set'
+import fixtures from './fixtures'
 
 describe("GameState", () => {
   describe("selectedSquare", () => {
@@ -355,6 +357,66 @@ describe("GameState", () => {
       let gameState = new GameState({current_player_number: 1, squares: []});
 
       expect(gameState.opponent()).toEqual(2);
+    });
+  });
+
+  describe('selectPiece', () => {
+    describe('with a square that exists', () => {
+      it('must select the piece on that square', () => {
+        let gameState = fixtures('game_state');
+        gameState.selectPiece('d7'); 
+        let square = gameState.findSquare('d7');
+        expect(square.piece.selected).toBe(true);
+      });
+    });
+
+    describe('with a square that does not exist', () => {
+      it('must do nothing', () => {
+        let gameState = fixtures('game_state');
+        gameState.selectPiece('j9'); 
+        let square = gameState.selectedSquare();
+        expect(square).toBe(undefined);
+      });
+    });
+  });
+
+  describe('deselectPiece', () => {
+    describe('with a square that exists', () => {
+      it('must select the piece on that square', () => {
+        let gameState = fixtures('game_state', {
+          squares: [
+            {id: 'd7', x: 3, y: 1, piece: { id: 12, player_number: 2, type: 'pawn', selected: true }}
+          ]
+        });
+        gameState.deselectPiece('d7'); 
+        let square = gameState.findSquare('d7');
+        expect(square.piece.selected).toBe(false);
+      });
+    });
+
+    describe('with a square that does not exist', () => {
+      it('must do nothing', () => {
+        let gameState = fixtures('game_state');
+        gameState.deselectPiece('j9'); 
+        let square = gameState.selectedSquare();
+        expect(square).toBe(undefined);
+      });
+    });
+  });
+
+  describe('promote', () => {
+    describe('with a square that exists', () => {
+      let gameState = fixtures('game_state');
+      gameState.promote('a8', 'queen');
+      let square = gameState.findSquare('a8');
+      expect(square.piece.constructor).toEqual(Queen);
+    });
+
+    describe('with a square that does not exist', () => {
+      let gameState = fixtures('game_state');
+      gameState.promote('j9', 'queen');
+      let queenSquares = gameState.squares.filter(function(s) { return s.piece !== null && s.piece.constructor == Queen });
+      expect(queenSquares.length()).toEqual(2);
     });
   });
 });

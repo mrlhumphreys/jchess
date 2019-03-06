@@ -6,6 +6,8 @@ class Match {
     this.gameState = new GameState(args.game_state);
     this.players = args.players;
     this.winner = args.winner;
+    this.currentMove = args.currentMove ? args.currentMove : {};
+    this.promotion = args.promotion ? args.promotion : false;
   }
 
   selectedSquare() {
@@ -55,6 +57,34 @@ class Match {
 
   pawnMoveToLastRank(from, to) { 
     return this.gameState.pawnMoveToLastRank(from, to);
+  }
+
+  // actions
+
+  selectPiece(squareId) {
+    this.gameState.selectPiece(squareId);
+  }
+
+  deselectPiece(squareId) {
+    this.gameState.deselectPiece(squareId);
+  }
+
+  move(fromId, toId) {
+    this.gameState.move(fromId, toId);
+  }
+
+  setupPromotion(fromId, toId) {
+    this.currentMove = { fromId: fromId, toId: toId };
+    this.promotion = true;
+  }
+
+  teardownPromotion() {
+    this.currentMove = {};
+    this.promotion = false;
+  }
+
+  promote(squareId, pieceType) {
+    this.gameState.promote(squareId, pieceType);   
   }
 }
 
