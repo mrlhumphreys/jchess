@@ -13,7 +13,7 @@ class PieceFactory {
 
   build() {
     if (exists(this.args)) {
-      if (this.args.constructorName == 'Piece') {
+      if (this.args.constructorName === 'Piece') {
         return this.args;
       } else {
         switch (this.args.type) {

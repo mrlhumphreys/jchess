@@ -27,7 +27,7 @@ class GameState {
   }
 
   playersTurn(playerNumber) { 
-    return this.currentPlayerNumber == playerNumber;
+    return this.currentPlayerNumber === playerNumber;
   }
 
   canMoveFrom(square) { 
@@ -44,7 +44,7 @@ class GameState {
     if (to.occupied()) {
       return to;
     } else {
-      let enPassant = exists(from) && exists(from.piece) && from.piece.type == 'pawn' && from.piece.enPassantSquare(from, this);
+      let enPassant = exists(from) && exists(from.piece) && from.piece.type === 'pawn' && from.piece.enPassantSquare(from, this);
       if (enPassant) {
         return this.squares.findSquareByPieceId(this.lastDoubleStepPawnId);
       } else {
@@ -59,7 +59,7 @@ class GameState {
   }
 
   rookCastleMove(from, to) { 
-    if (from.occupied() && from.piece.type == 'king' && from.piece.castle(from, this).includes(to)) {
+    if (from.occupied() && from.piece.type === 'king' && from.piece.castle(from, this).includes(to)) {
       let vector = new Vector(from, to);
 
       let rookFromX = vector.directionX() > 0 ? 7 : 0;
@@ -77,7 +77,7 @@ class GameState {
   }
 
   pawnMoveToLastRank(from, to) { 
-    return exists(from.piece) && from.piece.type == 'pawn' && to.lastRank(from.piece.playerNumber);
+    return exists(from.piece) && from.piece.type === 'pawn' && to.lastRank(from.piece.playerNumber);
   }
 
   inCheck(playerNumber) { 
@@ -100,7 +100,7 @@ class GameState {
 
 
   opponentOf(playerNumber) { 
-    return playerNumber == 1 ? 2 : 1;
+    return playerNumber === 1 ? 2 : 1;
   }
 
   opponent() {

@@ -16,10 +16,10 @@ class Pawn extends Piece {
   }
 
   enPassantSquare(square, gameState) { 
-    if (square.rankNumber(this.playerNumber) == 5 && exists(gameState.lastDoubleStepPawnId)) {
+    if (square.rankNumber(this.playerNumber) === 5 && exists(gameState.lastDoubleStepPawnId)) {
       let doubleStep = gameState.squares.findSquareByPieceId(gameState.lastDoubleStepPawnId);
       let vector = new Vector(square, doubleStep);
-      if (vector.magnitude() == 1) {
+      if (vector.magnitude() === 1) {
         let x = doubleStep.x;
         let y = square.y + this.direction();
         return gameState.squares.findSquareByXandY(x, y);
@@ -36,7 +36,7 @@ class Pawn extends Piece {
   }
 
   direction() {
-    return this.playerNumber == 1 ? -1 : 1;
+    return this.playerNumber === 1 ? -1 : 1;
   }
 }
 

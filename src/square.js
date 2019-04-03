@@ -36,7 +36,7 @@ class Square {
   }
 
   occupiedBy(playerNumber) { 
-    return this.occupied() && this.piece.playerNumber == playerNumber;
+    return this.occupied() && this.piece.playerNumber === playerNumber;
   }
 
   point() {
@@ -44,11 +44,11 @@ class Square {
   }
 
   startingFor(playerNumber) { 
-    return this.rankNumber(playerNumber) == 2;
+    return this.rankNumber(playerNumber) === 2;
   }
 
   rankNumber(playerNumber) { 
-    if (playerNumber == 1) {
+    if (playerNumber === 1) {
       return (8 - this.y);
     } else {
       return (this.y + 1);
@@ -56,7 +56,7 @@ class Square {
   }
 
   lastRank(playerNumber) { 
-    return this.rankNumber(playerNumber) == 8;
+    return this.rankNumber(playerNumber) === 8;
   }
 
   dup() {

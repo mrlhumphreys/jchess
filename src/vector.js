@@ -23,11 +23,11 @@ class Vector {
   }
 
   diagonal() {
-    return this.absDx() == this.absDy();
+    return this.absDx() === this.absDy();
   }
 
   orthogonal() {
-    return this.dx() == 0 || this.dy() == 0;
+    return this.dx() === 0 || this.dy() === 0;
   }
 
   orthogonalOrDiagonal() {
@@ -45,7 +45,7 @@ class Vector {
   directionY() {
     if (this.dy() > 0) {
       return 1;
-    } else if (this.dy() == 0) {
+    } else if (this.dy() === 0) {
       return 0;
     } else {
       return -1;
@@ -55,7 +55,7 @@ class Vector {
   directionX() {
     if (this.dx() > 0) {
       return 1;
-    } else if (this.dx() == 0) {
+    } else if (this.dx() === 0) {
       return 0;
     } else {
       return -1;
