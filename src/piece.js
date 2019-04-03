@@ -1,3 +1,5 @@
+import exists from './exists'
+
 const mockSquareSet = {
   some: function() { return false; },
   none: function() { return true; },
@@ -8,10 +10,20 @@ class Piece {
   constructor(args) {
     this.constructorName = 'Piece';
     this.playerNumber = args.player_number;
-    this.selected = args.selected ? args.selected : false;
+    this.selected = exists(args.selected) ? args.selected : false;
     this.id = args.id;
-    this.hasMoved = args.has_moved ? args.has_moved : false;
+    this.hasMoved = exists(args.has_moved) ? args.has_moved : false;
     this.type = args.type;
+  }
+
+  asJson() {
+    return {
+      player_number: this.playerNumber,
+      selected: this.selected,
+      id: this.id,
+      has_moved: this.hasMoved,
+      type: this.type
+    };
   }
 
   canMoveFrom(square, gameState) {

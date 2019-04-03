@@ -2,6 +2,19 @@ import Piece from '../src/piece'
 import Rook from '../src/rook'
 
 describe("Piece", () => {
+  describe('asJson', () => {
+    it('must return a piece as json', () => {
+      let piece = new Piece({id: 0, player_number: 0, type: 'unicorn'});
+      expect(piece.asJson()).toEqual({
+        player_number: 0,
+        selected: false,
+        id: 0,
+        has_moved: false,
+        type: 'unicorn'
+      });
+    });
+  });
+
   describe("canMoveFrom", () => {
     it('must depend on destinations', () => {
       let piece = new Piece({id: 0, player_number: 0, type: 'unicorn'});

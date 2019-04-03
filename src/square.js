@@ -17,6 +17,16 @@ class Square {
     }
   }
 
+  asJson() {
+    let pieceJson = exists(this.piece) ? this.piece.asJson() : null;
+    return {
+      id: this.id,
+      x: this.x,
+      y: this.y,
+      piece: pieceJson 
+    };
+  }
+
   occupied() {
     return exists(this.piece); 
   }

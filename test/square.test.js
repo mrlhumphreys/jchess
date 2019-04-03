@@ -4,6 +4,34 @@ import Rook from '../src/rook'
 import Queen from '../src/queen'
 
 describe('Square', () => {
+  describe('asJson', () => {
+    it('must return square as json', () => {
+      let square = new Square({ id: 'a8', x: 0, y: 0, piece: { id: 1, player_number: 2, type: 'rook' } });
+      expect(square.asJson()).toEqual({
+        id: 'a8',
+        x: 0,
+        y: 0,
+        piece: {
+          has_moved: false,
+          id: 1,
+          player_number: 2,
+          selected: false,
+          type: 'rook'
+        } 
+      }); 
+    });
+
+    it('returns null for piece', () => {
+      let square = new Square({ id: 'a8', x: 0, y: 0, piece: null });
+      expect(square.asJson()).toEqual({
+        id: 'a8',
+        x: 0,
+        y: 0,
+        piece: null 
+      });
+    });
+  });
+
   describe('occupied', () => {
     it('must return true if there is a piece', () => {
       let piece = new Rook({id: 1, player_number: 2, type: 'rook'});

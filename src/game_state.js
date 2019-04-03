@@ -10,6 +10,14 @@ class GameState {
     this.lastDoubleStepPawnId = args.last_double_step_pawn_id;
   }
 
+  asJson() {
+    return {
+      current_player_number: this.currentPlayerNumber,
+      squares: this.squares.asJson().squares,
+      last_double_step_pawn_id: this.lastDoubleStepPawnId
+    };
+  }
+
   selectedSquare() {
     return this.squares.selectedSquare();
   }

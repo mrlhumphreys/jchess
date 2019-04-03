@@ -13,6 +13,12 @@ class SquareSet {
     });
   }
 
+  asJson() {
+    return {
+      squares: this.squares.map(function(s) { return s.asJson(); })
+    };
+  }
+
   direction(playerNumber) { 
     return playerNumber == 1 ? -1 : 1;
   }

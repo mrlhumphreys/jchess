@@ -33,7 +33,7 @@ describe('Move', () => {
     });
 
     it('must return false if the square is not specified', () => {
-      let gameState = fixtures('game_state');
+      let gameState = fixtures('gameState');
       let move = new Move({from: null, gameState: gameState});
 
       expect(move.possible()).toBe(false);
@@ -41,7 +41,7 @@ describe('Move', () => {
     });
 
     it('must return false if the square is empty', () => {
-      let gameState = fixtures('game_state');
+      let gameState = fixtures('gameState');
       let square = new Square({id: 'a8', x: 0, y: 0, piece: null});
       let move = new Move({from: square, gameState: gameState});
 
@@ -77,7 +77,7 @@ describe('Move', () => {
     });
 
     it('must return false if the square is not specified', () => {
-      let gameState = fixtures('game_state');
+      let gameState = fixtures('gameState');
       let move = new Move({from: null, gameState: gameState});
 
       expect(move.valid()).toBe(false);
@@ -85,7 +85,7 @@ describe('Move', () => {
     });
 
     it('must return false if the square is empty', () => {
-      let gameState = fixtures('game_state');
+      let gameState = fixtures('gameState');
       let square = new Square({id: 'a8', x: 0, y: 0, piece: null});
       let move = new Move({from: square, gameState: gameState});
 

@@ -7,9 +7,21 @@ class Match {
     this.gameState = new GameState(args.game_state);
     this.players = args.players;
     this.winner = args.winner;
-    this.currentMove = args.currentMove ? args.currentMove : {};
-    this.promotion = args.promotion ? args.promotion : false;
-    this.lastAction = {};
+    this.currentMove = exists(args.currentMove) ? args.currentMove : {};
+    this.promotion = exists(args.promotion) ? args.promotion : false;
+    this.lastAction = exists(args.last_action) ? args.last_action : {};
+  }
+
+  asJson() {
+    return {
+      id: this.id,
+      game_state: this.gameState.asJson(),
+      players: this.players,
+      winner: this.winner,
+      current_move: this.currentMove,
+      promotion: this.promotion,
+      last_action: this.lastAction   
+    };
   }
 
   selectedSquare() {
