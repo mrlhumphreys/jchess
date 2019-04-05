@@ -7,7 +7,7 @@ class Match {
     this.gameState = new GameState(args.game_state);
     this.players = args.players;
     this.winner = args.winner;
-    this.currentMove = exists(args.currentMove) ? args.currentMove : {};
+    this.currentMove = exists(args.current_move) ? args.current_move : {};
     this.promotion = exists(args.promotion) ? args.promotion : false;
     this.lastAction = exists(args.last_action) ? args.last_action : {};
   }

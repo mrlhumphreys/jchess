@@ -268,7 +268,7 @@ const fixtureDefinitions = {
     klass: Match,
     args: {
       id: 1,
-      currentMove: { fromId: 'd2' },
+      current_move: { fromId: 'd2' },
       promotion: false,
       game_state: {
         current_player_number: 1,
@@ -358,7 +358,7 @@ const fixtureDefinitions = {
     klass: Match,
     args: {
       id: 1,
-      currentMove: { fromId: 'a7' },
+      current_move: { fromId: 'a7' },
       promotion: false,
       game_state: {
         current_player_number: 1,
@@ -448,7 +448,7 @@ const fixtureDefinitions = {
     klass: Match,
     args: { 
       id: 1,
-      currentMove: { fromId: 'a7', toId: 'a8' },
+      current_move: { fromId: 'a7', toId: 'a8' },
       promotion: true,
       game_state: {
         current_player_number: 1,
