@@ -96,62 +96,10 @@ describe('match', () => {
     });
   });
 
-  describe('selectedSquare', () => {
-    it('must return the selected square from game state', () => {
-      let match = fixtures('moveMatch');
-      expect(match.selectedSquare().id).toEqual('d2'); 
-    });
-  });
-
-  describe('findSquare', () => {
-    it('must return the find square from game state', () => {
-      let match = fixtures('match');
-      expect(match.findSquare('a8').id).toEqual('a8');
-    });
-  });
-
-  describe('currentPlayerName', () => {
-    it('must return the name of the current player', () => {
-      let match = fixtures('match');
-      expect(match.currentPlayerName()).toEqual('aaa');
-    });
-  });
-
-  describe('playerName', () => {
-    it('must return the name of the specified player', () => {
-      let match = fixtures('match');
-      expect(match.playersName(2)).toEqual('bbb');
-    });
-  });
-
-  describe('playersTurn', () => {
-    it('must return true if it is their turn', () => {
-      let match = fixtures('match');
-      expect(match.playersTurn(1)).toBe(true);
-    });
-
-    it('must return false if it is their turn', () => {
-      let match = fixtures('match');
-      expect(match.playersTurn(2)).toBe(false);
-    });
-  });
-
-  describe('winnerName', () => {
-    it('must return the name of the winner if there is one', () => {
-      let match = fixtures('match', { winner: 1 });  
-      expect(match.winnerName()).toEqual('aaa'); 
-    });
-
-    it('must return null if there is no winner', () => {
-      let match = fixtures('match', { winner: null });
-      expect(match.winnerName()).toBe(null);
-    });
-  });
-
   describe('canMoveFrom', () => {
     it('must return canMoveFrom from game state', () => {
       let match = fixtures('match');
-      let from = match.findSquare('a2');
+      let from = match.gameState.findSquare('a2');
       expect(match.canMoveFrom(from)).toBe(true);      
     });
   });
@@ -159,8 +107,8 @@ describe('match', () => {
   describe('canMove', () => {
     it('must return canMove from game state', () => {
       let match = fixtures('match');
-      let from = match.findSquare('a2');
-      let to = match.findSquare('a3');
+      let from = match.gameState.findSquare('a2');
+      let to = match.gameState.findSquare('a3');
       expect(match.canMove(from, to)).toBe(true); 
     });
   });
@@ -177,8 +125,8 @@ describe('match', () => {
         }
       });
 
-      let from = match.findSquare('a8');
-      let to = match.findSquare('b8');
+      let from = match.gameState.findSquare('a8');
+      let to = match.gameState.findSquare('b8');
 
       expect(match.capturedSquareId(from, to)).toEqual('b8')
     });
@@ -197,8 +145,8 @@ describe('match', () => {
         }
       });
 
-      let from = match.findSquare('e1');
-      let to = match.findSquare('g1');
+      let from = match.gameState.findSquare('e1');
+      let to = match.gameState.findSquare('g1');
       
       expect(match.rookCastleMove(from, to)).toEqual({fromId: 'h1', toId: 'f1'}); 
     });
@@ -207,102 +155,9 @@ describe('match', () => {
   describe('pawnMoveToLastRank', () => {
     it('must return pawn move to last rank from game state', () => {
       let match = fixtures('toPromoteMatch');
-      let from = match.findSquare('a7');
-      let to = match.findSquare('a8');
+      let from = match.gameState.findSquare('a7');
+      let to = match.gameState.findSquare('a8');
       expect(match.pawnMoveToLastRank(from, to)).toBe(true); 
-    });
-  });
-
-  describe('selectPiece', () => {
-    it('must select a piece', () => {
-      let match = fixtures('match');
-      match.selectPiece('d7');
-      let square = match.findSquare('d7');
-      expect(square.piece.selected).toBe(true);
-    });
-  });
-
-  describe('deselectPiece', () => {
-    it('must deselect a piece', () => {
-      let match = fixtures('moveMatch');
-      match.deselectPiece('d2');
-      let square = match.findSquare('d2');
-      expect(square.piece.selected).toBe(false);
-    });
-  });
-
-  describe('move', () => {
-    it('must move the piece', () => {
-      let match = fixtures('match');
-      match.move('d2', 'd3');
-      let from = match.findSquare('d2');
-      let to = match.findSquare('d3');
-      expect(from.occupied()).toBe(false);
-      expect(to.occupied()).toBe(true);
-    });
-  });
-
-  describe('setupPromotion', () => {
-    it('must set the currentMove', () => {
-      let match = fixtures('match');
-      let move = { fromId: 'd2', toId: 'd3' };
-      match.setupPromotion(move.fromId, move.toId);
-      expect(match.currentMove).toEqual(move);
-    });
-
-    it('must set the promotion to true', () => {
-      let match = fixtures('match');
-      match.setupPromotion('d2', 'd3');
-      expect(match.promotion).toBe(true);
-    });
-  });
-
-  describe('teardownPromotion', () => {
-    it('must set the currentMove to null', () => {
-      let match = fixtures('promotionMatch');
-      match.teardownPromotion();
-      expect(match.currentMove).toEqual({});
-    });
-
-    it('must set the promotion to false', () => {
-      let match = fixtures('promotionMatch');
-      match.teardownPromotion();
-      expect(match.promotion).toBe(false);
-    });
-  });
-
-  describe('promote', () => {
-    it('must promote the piece', () => {
-      let match = fixtures('match');
-      match.promote('a8', 'queen');
-      let square = match.findSquare('a8');
-      expect(square.piece.constructor).toEqual(Queen);
-    });
-  });
-
-  describe('addMoveToLastAction', () => {
-    describe('with pieceType', () => {
-      it('adds details to lastAction', () => {
-        let match = fixtures('match');
-        match.addMoveToLastAction('b7', 'b8', 'queen');
-        expect(match.lastAction).toEqual({kind: 'move', data: { fromId: 'b7', toId: 'b8', pieceType: 'queen' }});
-      });
-    });
-
-    describe('without pieceType', () => {
-      it('adds details to lastAction', () => {
-        let match = fixtures('match');
-        match.addMoveToLastAction('a1', 'a2');
-        expect(match.lastAction).toEqual({kind: 'move', data: { fromId: 'a1', toId: 'a2' }});
-      });
-    });
-  });
-
-  describe('notify', () => {
-    it('adds the message to lastAction', () => {
-      let match = fixtures('match');
-      match.notify('hello');
-      expect(match.lastAction).toEqual({kind: 'notification', data: { message: 'hello' }});
     });
   });
 
@@ -337,8 +192,8 @@ describe('match', () => {
           it('moves the piece', () => {
             let match = fixtures('moveMatch');
             match.touchSquare('d3', 1);
-            let from = match.findSquare('d2');
-            let to = match.findSquare('d3');
+            let from = match.gameState.findSquare('d2');
+            let to = match.gameState.findSquare('d3');
             expect(from.piece).toBe(null);
             expect(to.piece).not.toBe(null);
           });
@@ -372,7 +227,7 @@ describe('match', () => {
         it('deselects the piece', () => {
           let match = fixtures('moveMatch');
           match.touchSquare('c3', 1);
-          let square = match.selectedSquare();
+          let square = match.gameState.selectedSquare();
           expect(square).toBe(undefined);
         });
       });
@@ -399,7 +254,7 @@ describe('match', () => {
         it('selects the piece', () => {
           let match = fixtures('match');
           match.touchSquare('d2', 1);
-          let square = match.findSquare('d2');
+          let square = match.gameState.findSquare('d2');
           expect(square.piece.selected).toBe(true);
         });
       });
@@ -418,7 +273,7 @@ describe('match', () => {
     it('promotes the pawn', () => {
       let match = fixtures('promotionMatch');
       match.touchPromotionPiece('queen', 1);
-      let square = match.findSquare('a8');
+      let square = match.gameState.findSquare('a8');
       expect(square.piece.type).toEqual('queen');
     });
 

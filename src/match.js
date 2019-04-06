@@ -24,34 +24,7 @@ class Match {
     };
   }
 
-  selectedSquare() {
-    return this.gameState.selectedSquare();
-  }
-
-  findSquare(id) { 
-    return this.gameState.findSquare(id);
-  }
-
-  currentPlayerName() {
-    return this.playersName(this.gameState.currentPlayerNumber);
-  }
-
-  playersName(number) { 
-    let index = number - 1;
-    return this.players[index].name;
-  }
-
-  playersTurn(playerNumber) { 
-    return this.gameState.playersTurn(playerNumber);
-  }
-
-  winnerName() {
-    if (this.winner) {
-      return this.playersName(this.winner);
-    } else {
-      return null;
-    }
-  }
+  // getters
 
   canMoveFrom(square) { 
     return this.gameState.canMoveFrom(square);
@@ -73,56 +46,16 @@ class Match {
     return this.gameState.pawnMoveToLastRank(from, to);
   }
 
-  // actions
-
-  selectPiece(squareId) {
-    this.gameState.selectPiece(squareId);
-  }
-
-  deselectPiece(squareId) {
-    this.gameState.deselectPiece(squareId);
-  }
-
-  move(fromId, toId) {
-    this.gameState.move(fromId, toId);
-  }
-
-  setupPromotion(fromId, toId) {
-    this.currentMove = { fromId: fromId, toId: toId };
-    this.promotion = true;
-  }
-
-  teardownPromotion() {
-    this.currentMove = {};
-    this.promotion = false;
-  }
-
-  promote(squareId, pieceType) {
-    this.gameState.promote(squareId, pieceType);   
-  }
-
-  addMoveToLastAction(fromId, toId, pieceType) {
-    if (exists(pieceType)) {
-      this.lastAction = { kind: 'move', data: { fromId: fromId, toId: toId, pieceType: pieceType } };
-    } else {
-      this.lastAction = { kind: 'move', data: { fromId: fromId, toId: toId } };
-    }
-  }
-
-  notify(message) {
-    this.lastAction = { kind: 'notification', data: { message : message } };
-  }
-
   // user actions
 
   touchSquare(squareId, playerNumber) {
-    let selectedSquare = this.selectedSquare();
-    let touchedSquare = this.findSquare(squareId);
+    let selectedSquare = this.gameState.selectedSquare();
+    let touchedSquare = this.gameState.findSquare(squareId);
 
     if (exists(this.winner)) {
-      this.notify('Game is over.'); 
-    } else if (!this.playersTurn(playerNumber)) {
-      this.notify('It is not your turn.');
+      this._notify('Game is over.'); 
+    } else if (!this.gameState.playersTurn(playerNumber)) {
+      this._notify('It is not your turn.');
     } else {
       if (exists(selectedSquare)) {
         if (this.canMove(selectedSquare, touchedSquare)) {
@@ -130,38 +63,62 @@ class Match {
           dup.move(selectedSquare.id, touchedSquare.id);
 
           if (dup.inCheck(this.gameState.currentPlayerNumber)) {
-            this.notify('Move puts king in check.');
+            this._notify('Move puts king in check.');
           } else {
             if (this.pawnMoveToLastRank(selectedSquare, touchedSquare)) {
-              this.move(selectedSquare.id, touchedSquare.id);
-              this.setupPromotion(selectedSquare.id, touchedSquare.id);
+              this.gameState.move(selectedSquare.id, touchedSquare.id);
+              this._setupPromotion(selectedSquare.id, touchedSquare.id);
             } else {
-              this.move(selectedSquare.id, touchedSquare.id);
-              this.addMoveToLastAction(selectedSquare.id, touchedSquare.id);
+              this.gameState.move(selectedSquare.id, touchedSquare.id);
+              this._addMoveToLastAction(selectedSquare.id, touchedSquare.id);
             }
           }
         } else {
-          this.notify('Invalid move.');
-          this.deselectPiece(selectedSquare.id);
+          this._notify('Invalid move.');
+          this.gameState.deselectPiece(selectedSquare.id);
         }
       } else {
         if (touchedSquare.unoccupied()) {
-          this.notify('The square is empty.');
+          this._notify('The square is empty.');
         } else if (!touchedSquare.occupiedBy(playerNumber)) {
-          this.notify('That piece is not yours.');
+          this._notify('That piece is not yours.');
         } else if (this.canMoveFrom(touchedSquare)) {
-          this.selectPiece(touchedSquare.id);
+          this.gameState.selectPiece(touchedSquare.id);
         } else {
-          this.notify('Piece cannot move.');
+          this._notify('Piece cannot move.');
         }
       }
     }
   }
 
   touchPromotionPiece(pieceType, playerNumber) {
-    this.promote(this.currentMove.toId, pieceType);
-    this.addMoveToLastAction(this.currentMove.fromId, this.currentMove.toId, pieceType);
-    this.teardownPromotion();
+    this.gameState.promote(this.currentMove.toId, pieceType);
+    this._addMoveToLastAction(this.currentMove.fromId, this.currentMove.toId, pieceType);
+    this._teardownPromotion();
+  }
+
+  // setter actions
+
+  _setupPromotion(fromId, toId) {
+    this.currentMove = { fromId: fromId, toId: toId };
+    this.promotion = true;
+  }
+
+  _teardownPromotion() {
+    this.currentMove = {};
+    this.promotion = false;
+  }
+
+  _addMoveToLastAction(fromId, toId, pieceType) {
+    if (exists(pieceType)) {
+      this.lastAction = { kind: 'move', data: { fromId: fromId, toId: toId, pieceType: pieceType } };
+    } else {
+      this.lastAction = { kind: 'move', data: { fromId: fromId, toId: toId } };
+    }
+  }
+
+  _notify(message) {
+    this.lastAction = { kind: 'notification', data: { message : message } };
   }
 }
 
