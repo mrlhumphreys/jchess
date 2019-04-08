@@ -8,7 +8,7 @@ class Pawn extends Piece {
   }
 
   moveSquares(square, gameState) { 
-    return gameState.squares.inRange(square, this.moveableDistance(square)).inDirection(square, this.playerNumber).orthogonal(square).unoccupied().unblocked(square, gameState.squares);
+    return gameState.squares.inRange(square, this.moveableDistance(square)).inDirection(square, this.playerNumber).orthogonal(square).unoccupied.unblocked(square, gameState.squares);
   }
 
   captureSquares(square, gameState) { 
@@ -19,9 +19,9 @@ class Pawn extends Piece {
     if (square.rankNumber(this.playerNumber) === 5 && exists(gameState.lastDoubleStepPawnId)) {
       let doubleStep = gameState.squares.findSquareByPieceId(gameState.lastDoubleStepPawnId);
       let vector = new Vector(square, doubleStep);
-      if (vector.magnitude() === 1) {
+      if (vector.magnitude === 1) {
         let x = doubleStep.x;
-        let y = square.y + this.direction();
+        let y = square.y + this.direction;
         return gameState.squares.findSquareByXandY(x, y);
       } else {
         return null;
@@ -35,7 +35,7 @@ class Pawn extends Piece {
     return square.startingFor(this.playerNumber) ? 2 : 1;
   }
 
-  direction() {
+  get direction() {
     return this.playerNumber === 1 ? -1 : 1;
   }
 }

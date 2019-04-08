@@ -223,7 +223,7 @@ describe("Pawn", () => {
       it('must be -1', () => {
         let pawn = new Pawn({id: 17, player_number: 1, type: 'pawn'});
 
-        expect(pawn.direction()).toEqual(-1);
+        expect(pawn.direction).toEqual(-1);
       });
     });
 
@@ -231,7 +231,7 @@ describe("Pawn", () => {
       it('must be 1', () => {
         let pawn = new Pawn({id: 10, player_number: 2, type: 'pawn'});
 
-        expect(pawn.direction()).toEqual(1);
+        expect(pawn.direction).toEqual(1);
       });
     });
   });

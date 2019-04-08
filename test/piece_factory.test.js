@@ -7,7 +7,7 @@ describe("PieceFactory", () => {
       it('must return the piece', () => {
         let args = new Pawn({id: 16, player_number: 2, type: 'pawn'});
         let pieceFactory = new PieceFactory(args);
-        let piece = pieceFactory.build();
+        let piece = pieceFactory.build;
 
         expect(piece).toEqual(args);
       });
@@ -17,7 +17,7 @@ describe("PieceFactory", () => {
       it('must return a new piece with the matching type', () => {
         let args = { id: 16, player_number: 2, type: 'pawn' };
         let pieceFactory = new PieceFactory(args);
-        let piece = pieceFactory.build();
+        let piece = pieceFactory.build;
 
         expect(piece.constructorName).toEqual('Piece');
         expect(piece.type).toEqual('pawn');
@@ -28,7 +28,7 @@ describe("PieceFactory", () => {
       it('must return null', () => {
         let args = { id: 16, player_number: 2, type: 'unicorn' };
         let pieceFactory = new PieceFactory(args);
-        let piece = pieceFactory.build();
+        let piece = pieceFactory.build;
 
         expect(piece).toBe(null);
       });
@@ -38,7 +38,7 @@ describe("PieceFactory", () => {
       it('must return null', () => {
         let args = null;
         let pieceFactory = new PieceFactory(args);
-        let piece = pieceFactory.build();
+        let piece = pieceFactory.build;
 
         expect(piece).toBe(null);
       });

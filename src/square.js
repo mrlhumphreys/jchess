@@ -13,12 +13,12 @@ class Square {
       this.piece = null;
     } else {
       let pieceFactory = new PieceFactory(args.piece);
-      this.piece = pieceFactory.build();
+      this.piece = pieceFactory.build;
     }
   }
 
-  asJson() {
-    let pieceJson = exists(this.piece) ? this.piece.asJson() : null;
+  get asJson() {
+    let pieceJson = exists(this.piece) ? this.piece.asJson : null;
     return {
       id: this.id,
       x: this.x,
@@ -27,19 +27,19 @@ class Square {
     };
   }
 
-  occupied() {
+  get occupied() {
     return exists(this.piece); 
   }
 
-  unoccupied() {
+  get unoccupied() {
     return !exists(this.piece); 
   }
 
   occupiedBy(playerNumber) { 
-    return this.occupied() && this.piece.playerNumber === playerNumber;
+    return this.occupied && this.piece.playerNumber === playerNumber;
   }
 
-  point() {
+  get point() {
     return new Point(this.x, this.y);
   }
 
@@ -59,11 +59,11 @@ class Square {
     return this.rankNumber(playerNumber) === 8;
   }
 
-  dup() {
+  get dup() {
     let _piece = null;
 
     if (exists(this.piece)) {
-      _piece = this.piece.dup();
+      _piece = this.piece.dup;
     }
 
     let args = {
@@ -101,9 +101,9 @@ class Square {
 
   promote(pieceType) {
     if (exists(this.piece)) {
-      let args = Object.assign({}, this.piece.asJson(), { type: pieceType });
+      let args = Object.assign({}, this.piece.asJson, { type: pieceType });
       let pieceFactory = new PieceFactory(args);
-      this.piece = pieceFactory.build();
+      this.piece = pieceFactory.build;
     }
   }
 }

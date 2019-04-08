@@ -5,7 +5,7 @@ describe('match', () => {
   describe('asJson', () => {
     it('must return match as json', () => {
       let match = fixtures('match');
-      expect(match.asJson()).toEqual({
+      expect(match.asJson).toEqual({
         id: 1,
         current_move: {},
         promotion: false,
@@ -227,7 +227,7 @@ describe('match', () => {
         it('deselects the piece', () => {
           let match = fixtures('moveMatch');
           match.touchSquare('c3', 1);
-          let square = match.gameState.selectedSquare();
+          let square = match.gameState.selectedSquare;
           expect(square).toBe(undefined);
         });
       });

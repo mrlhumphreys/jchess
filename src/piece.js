@@ -16,7 +16,7 @@ class Piece {
     this.type = args.type;
   }
 
-  asJson() {
+  get asJson() {
     return {
       player_number: this.playerNumber,
       selected: this.selected,
@@ -46,15 +46,15 @@ class Piece {
     return null;
   }
 
-  hasNotMoved() {
+  get hasNotMoved() {
     return !this.hasMoved;
   }
 
-  opponent() {
+  get opponent() {
     return (this.playerNumber === 1 ? 2 : 1);
   }
 
-  dup() {
+  get dup() {
     let _piece = {
       type: this.type,
       player_number: this.playerNumber,
@@ -63,16 +63,6 @@ class Piece {
       has_moved: this.hasMoved
     }
     return new this.constructor(_piece);
-  }
-
-  asJson() {
-    return {
-      player_number: this.playerNumber, 
-      selected: this.selected,
-      id: this.id,
-      has_moved: this.hasMoved,
-      type: this.type
-    };
   }
 
   // actions

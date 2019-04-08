@@ -5,7 +5,7 @@ describe("Piece", () => {
   describe('asJson', () => {
     it('must return a piece as json', () => {
       let piece = new Piece({id: 0, player_number: 0, type: 'unicorn'});
-      expect(piece.asJson()).toEqual({
+      expect(piece.asJson).toEqual({
         player_number: 0,
         selected: false,
         id: 0,
@@ -62,13 +62,13 @@ describe("Piece", () => {
     it('must be true if piece has not moved', () => {
       let piece = new Piece({id: 0, player_number: 0, type: 'unicorn', has_moved: false});
 
-      expect(piece.hasNotMoved()).toBe(true);
+      expect(piece.hasNotMoved).toBe(true);
     });
 
     it('must be false if piece has moved', () => {
       let piece = new Piece({id: 0, player_number: 0, type: 'unicorn', has_moved: true});
 
-      expect(piece.hasNotMoved()).toBe(false);
+      expect(piece.hasNotMoved).toBe(false);
     });
   });
 
@@ -76,38 +76,24 @@ describe("Piece", () => {
     it('must be 2 if player is 1', () => {
       let piece = new Piece({id: 0, player_number: 1, type: 'unicorn'});
 
-      expect(piece.opponent()).toEqual(2);
+      expect(piece.opponent).toEqual(2);
     });
 
     it('must be 1 if player is 2', () => {
       let piece = new Piece({id: 0, player_number: 2, type: 'unicorn'});
 
-      expect(piece.opponent()).toEqual(1);
+      expect(piece.opponent).toEqual(1);
     });
   });
 
   describe("dup", () => {
     it('must return another piece with the same attributes', () => {
       let piece = new Piece({id: 1, player_number: 1, type: 'pawn'});
-      let dup = piece.dup();
+      let dup = piece.dup;
 
       expect(piece.id).toEqual(dup.id);
       expect(piece.playerNumber).toEqual(dup.playerNumber);
       expect(piece.constructor).toEqual(dup.constructor);
-    });
-  });
-
-  describe('asJson', () => {
-    it('serialises the piece', () => {
-      let piece = new Rook({id: 1, player_number: 2, type: 'rook'}); 
-      let json = {
-        player_number: 2,
-        selected: false,
-        id: 1,
-        has_moved: false,
-        type: 'rook'
-      };
-      expect(piece.asJson()).toEqual(json);
     });
   });
 

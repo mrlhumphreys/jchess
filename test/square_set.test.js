@@ -11,7 +11,7 @@ describe('SquareSet', () => {
   describe('asJson', () => {
     it('must return square set as json', () => {
       let squareSet = fixtures('squareSet');
-      expect(squareSet.asJson()).toEqual({
+      expect(squareSet.asJson).toEqual({
         squares: [
           { id: 'a8', x: 0, y: 0, piece: { id: 1, player_number: 2, has_moved: false, selected: false, type: 'rook' } },
           { id: 'b8', x: 1, y: 0, piece: { id: 2, player_number: 2, has_moved: false, selected: false, type: 'knight' } },
@@ -296,9 +296,9 @@ describe('SquareSet', () => {
       let square = new Square({id: 'a6', x: 0, y: 2, piece: null});
       let squareSet = new SquareSet({squares: [square, square]});
 
-      let unique = squareSet.uniq();
+      let unique = squareSet.uniq;
 
-      expect(unique.length()).toBe(1);
+      expect(unique.length).toBe(1);
     });
   });
 
@@ -327,7 +327,7 @@ describe('SquareSet', () => {
       let squareB = new Square({id: 'a5', x: 0, y: 3, piece: null});
       let squareSet = new SquareSet({squares: [squareA, squareB]});
 
-      expect(squareSet.length()).toEqual(2);
+      expect(squareSet.length).toEqual(2);
     });
   });
 
@@ -377,7 +377,7 @@ describe('SquareSet', () => {
       let squareB = new Square({id: 'a5', x: 0, y: 3, piece: null});
       let squareSet = new SquareSet({squares: [squareA]});
 
-      expect(squareSet.first().id).toEqual(squareA.id);
+      expect(squareSet.first.id).toEqual(squareA.id);
     });
   });
 
@@ -388,7 +388,7 @@ describe('SquareSet', () => {
       let selected = new Square({id: 'a5', x: 0, y: 3, piece: piece});
       let squareSet = new SquareSet({squares: [empty, selected]});
 
-      expect(squareSet.selectedSquare().id).toEqual(selected.id);
+      expect(squareSet.selectedSquare.id).toEqual(selected.id);
     });
 
     it('must return undefined if there is no piece selected', () => {
@@ -397,7 +397,7 @@ describe('SquareSet', () => {
       let unselected = new Square({id: 'a5', x: 0, y: 3, piece: piece});
       let squareSet = new SquareSet({squares: [empty, unselected]});
 
-      expect(squareSet.selectedSquare()).toBe(undefined);
+      expect(squareSet.selectedSquare).toBe(undefined);
     });
   });
 
@@ -709,7 +709,7 @@ describe('SquareSet', () => {
 
       let squareSet = new SquareSet({squares: [occupied, unoccupied]});
 
-      expect(squareSet.unoccupied().includes(unoccupied)).toBe(true);
+      expect(squareSet.unoccupied.includes(unoccupied)).toBe(true);
     });
 
     it('must not return squares without pieces', () => {
@@ -719,7 +719,7 @@ describe('SquareSet', () => {
 
       let squareSet = new SquareSet({squares: [occupied, unoccupied]});
 
-      expect(squareSet.unoccupied().includes(occupied)).toBe(false);
+      expect(squareSet.unoccupied.includes(occupied)).toBe(false);
     });
   });
 
@@ -941,7 +941,7 @@ describe('SquareSet', () => {
       let movedSquare = new Square({id: 'b6', x: 1, y: 2, piece: movedPiece});
       let squareSet = new SquareSet({squares: [movedSquare, unmovedSquare]});
 
-      expect(squareSet.unmoved().includes(unmovedSquare)).toBe(true);
+      expect(squareSet.unmoved.includes(unmovedSquare)).toBe(true);
     });
 
     it('must not return squares with pieces that have moved', () => {
@@ -951,7 +951,7 @@ describe('SquareSet', () => {
       let movedSquare = new Square({id: 'b6', x: 1, y: 2, piece: movedPiece});
       let squareSet = new SquareSet({squares: [movedSquare, unmovedSquare]});
 
-      expect(squareSet.unmoved().includes(movedSquare)).toBe(false);
+      expect(squareSet.unmoved.includes(movedSquare)).toBe(false);
     });
   });
 

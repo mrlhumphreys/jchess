@@ -12,10 +12,10 @@ class Match {
     this.lastAction = exists(args.last_action) ? args.last_action : {};
   }
 
-  asJson() {
+  get asJson() {
     return {
       id: this.id,
-      game_state: this.gameState.asJson(),
+      game_state: this.gameState.asJson,
       players: this.players,
       winner: this.winner,
       current_move: this.currentMove,
@@ -49,7 +49,7 @@ class Match {
   // user actions
 
   touchSquare(squareId, playerNumber) {
-    let selectedSquare = this.gameState.selectedSquare();
+    let selectedSquare = this.gameState.selectedSquare;
     let touchedSquare = this.gameState.findSquare(squareId);
 
     if (exists(this.winner)) {
@@ -59,7 +59,7 @@ class Match {
     } else {
       if (exists(selectedSquare)) {
         if (this.canMove(selectedSquare, touchedSquare)) {
-          let dup = this.gameState.dup();
+          let dup = this.gameState.dup;
           dup.move(selectedSquare.id, touchedSquare.id);
 
           if (dup.inCheck(this.gameState.currentPlayerNumber)) {
@@ -78,7 +78,7 @@ class Match {
           this.gameState.deselectPiece(selectedSquare.id);
         }
       } else {
-        if (touchedSquare.unoccupied()) {
+        if (touchedSquare.unoccupied) {
           this._notify('The square is empty.');
         } else if (!touchedSquare.occupiedBy(playerNumber)) {
           this._notify('That piece is not yours.');

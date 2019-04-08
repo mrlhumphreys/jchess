@@ -16,26 +16,26 @@ class King extends Piece {
   }
 
   castle(square, gameState) { 
-    let rooks = gameState.squares.occupiedByPiece('rook').occupiedByPlayer(this.playerNumber).unmoved()
+    let rooks = gameState.squares.occupiedByPiece('rook').occupiedByPlayer(this.playerNumber).unmoved
 
-    if (this.hasNotMoved() && rooks.some()) {
+    if (this.hasNotMoved && rooks.some()) {
       let _squares = rooks.map((s) => {
         let vector = new Vector(square, s);
-        let x = square.x + (2 * vector.directionX());
+        let x = square.x + (2 * vector.directionX);
         let y = square.y;
         return gameState.squares.findSquareByXandY(x, y);
       });
 
       let potential = new SquareSet({squares: _squares});
 
-      return potential.unoccupied().unblocked(square, gameState.squares);
+      return potential.unoccupied.unblocked(square, gameState.squares);
     } else {
       return new SquareSet({squares: []});
     }
   }
 
   checkedSquares(square, gameState) { 
-    return gameState.squares.threatenedBy(this.opponent(), gameState);
+    return gameState.squares.threatenedBy(this.opponent, gameState);
   }
 
   sharedKingSquares(gameState) { 

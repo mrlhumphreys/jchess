@@ -2,7 +2,7 @@
   "name": "@mrlhumphreys/jchess",
   "author": "Mark Humphreys <mark@mrlhumphreys.com> (https://github.com/mrlhumphreys)",
   "description": "Chess game state and move validation",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "main": "lib/index.js",
   "keywords": [
     "Chess",

@@ -6,64 +6,64 @@ class Vector {
     this.pointB = pointB;
   }
 
-  dx() {
+  get dx() {
     return this.pointB.x - this.pointA.x;
   }
 
-  dy() {
+  get dy() {
     return this.pointB.y - this.pointA.y;
   }
 
-  absDx() {
-    return Math.abs(this.dx());
+  get absDx() {
+    return Math.abs(this.dx);
   }
 
-  absDy() {
-    return Math.abs(this.dy());
+  get absDy() {
+    return Math.abs(this.dy);
   }
 
-  diagonal() {
-    return this.absDx() === this.absDy();
+  get diagonal() {
+    return this.absDx === this.absDy;
   }
 
-  orthogonal() {
-    return this.dx() === 0 || this.dy() === 0;
+  get orthogonal() {
+    return this.dx === 0 || this.dy === 0;
   }
 
-  orthogonalOrDiagonal() {
-    return this.orthogonal() || this.diagonal();
+  get orthogonalOrDiagonal() {
+    return this.orthogonal || this.diagonal;
   }
 
-  notOrthogonalOrDiagonal() {
-    return !this.orthogonal() && !this.diagonal();
+  get notOrthogonalOrDiagonal() {
+    return !this.orthogonal && !this.diagonal;
   }
 
-  magnitude() {
-    return Math.max(this.absDx(), this.absDy());
+  get magnitude() {
+    return Math.max(this.absDx, this.absDy);
   }
 
-  directionY() {
-    if (this.dy() > 0) {
+  get directionY() {
+    if (this.dy > 0) {
       return 1;
-    } else if (this.dy() === 0) {
+    } else if (this.dy === 0) {
       return 0;
     } else {
       return -1;
     }
   }
 
-  directionX() {
-    if (this.dx() > 0) {
+  get directionX() {
+    if (this.dx > 0) {
       return 1;
-    } else if (this.dx() === 0) {
+    } else if (this.dx === 0) {
       return 0;
     } else {
       return -1;
     }
   }
 
-  direction() {
-    return new Direction(this.directionX(), this.directionY());
+  get direction() {
+    return new Direction(this.directionX, this.directionY);
   }
 }
 

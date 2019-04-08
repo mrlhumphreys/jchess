@@ -13,9 +13,9 @@ class SquareSet {
     });
   }
 
-  asJson() {
+  get asJson() {
     return {
-      squares: this.squares.map(function(s) { return s.asJson(); })
+      squares: this.squares.map(function(s) { return s.asJson; })
     };
   }
 
@@ -27,8 +27,8 @@ class SquareSet {
     return playerNumber === 1 ? 2 : 1;
   }
 
-  dup() {
-    let _squares = this.squares.map(function(s) { return s.dup(); });
+  get dup() {
+    let _squares = this.squares.map(function(s) { return s.dup; });
     return new SquareSet({squares: _squares});
   }
 
@@ -76,7 +76,7 @@ class SquareSet {
     return this.filter(function(square) { return other.includes(square); });
   }
 
-  uniq() {
+  get uniq() {
     return this.filter(function(e, i, a) { return a.indexOf(e) === i; });
   }
 
@@ -89,7 +89,7 @@ class SquareSet {
     }
   }
 
-  length() {
+  get length() {
     return this.squares.length;
   }
 
@@ -105,59 +105,59 @@ class SquareSet {
 
   // finders
 
-  first() {
+  get first() {
     return this.squares[0];
   }
 
-  selectedSquare() {
-    return this.filter(function(s) { return exists(s.piece) && s.piece.selected; }).first();
+  get selectedSquare() {
+    return this.filter(function(s) { return exists(s.piece) && s.piece.selected; }).first;
   }
 
   findSquare(id) { 
-    return this.filter(function(s) { return s.id === id; }).first();
+    return this.filter(function(s) { return s.id === id; }).first;
   }
 
   findSquareByXandY(x, y) { 
-    return this.filter(function(s) { return s.x === x && s.y === y; }).first();
+    return this.filter(function(s) { return s.x === x && s.y === y; }).first;
   }
 
   findSquareByPieceId(pieceId) { 
-    return this.filter(function(s) { return exists(s.piece) && s.piece.id === pieceId; }).first();
+    return this.filter(function(s) { return exists(s.piece) && s.piece.id === pieceId; }).first;
   }
 
   findKingForPlayer(playerNumber) { 
-    return this.occupiedByPiece('king').occupiedByPlayer(playerNumber).first();
+    return this.occupiedByPiece('king').occupiedByPlayer(playerNumber).first;
   }
 
   // filters
 
   inRange(square, distance) { 
     return this.filter(function(s) { 
-      return (new Vector(square, s)).magnitude() <= distance;
+      return (new Vector(square, s)).magnitude <= distance;
     });
   }
 
   atRange(square, distance) { 
     return this.filter(function(s) {
-      return (new Vector(square, s)).magnitude() === distance;
+      return (new Vector(square, s)).magnitude === distance;
     });
   }
 
   inDirection(square, playerNumber) { 
     return this.filter((s) => { 
-      return (new Vector(square, s)).directionY() === this.direction(playerNumber);
+      return (new Vector(square, s)).directionY === this.direction(playerNumber);
     });
   }
 
   orthogonal(square) { 
     return this.filter(function(s) {
-      return (new Vector(square, s)).orthogonal();
+      return (new Vector(square, s)).orthogonal;
     });
   }
 
   diagonal(square) { 
     return this.filter(function(s) {
-      return (new Vector(square, s)).diagonal();
+      return (new Vector(square, s)).diagonal;
     });
   }
 
@@ -167,18 +167,18 @@ class SquareSet {
 
   orthogonalOrDiagonal(square) { 
     return this.filter(function(s) { 
-      return (new Vector(square, s)).orthogonalOrDiagonal();
+      return (new Vector(square, s)).orthogonalOrDiagonal;
     });
   }
 
   notOrthogonalOrDiagonal(square) { 
     return this.filter(function(s) {
-      return (new Vector(square, s)).notOrthogonalOrDiagonal();
+      return (new Vector(square, s)).notOrthogonalOrDiagonal;
     });
   }
 
-  unoccupied() {
-    return this.filter(function(s) { return s.unoccupied(); });
+  get unoccupied() {
+    return this.filter(function(s) { return s.unoccupied; });
   }
 
   occupiedByPlayer(playerNumber) { 
@@ -214,14 +214,14 @@ class SquareSet {
   unblocked(origin, board) { 
     return this.filter(function(destination) {
       return board.between(origin, destination).every(function(s) {
-        return s.unoccupied();
+        return s.unoccupied;
       });
     });
   }
 
-  unmoved() {
+  get unmoved() {
     return this.filter(function(s) {
-      return exists(s.piece) && s.piece.hasNotMoved();
+      return exists(s.piece) && s.piece.hasNotMoved;
     });
   }
 
@@ -229,15 +229,15 @@ class SquareSet {
     let vector = new Vector(origin, destination);
     let _squares = [];
 
-    if (vector.diagonal() || vector.orthogonal()) {
-      let pointCounter = origin.point();
-      let direction = vector.direction();
+    if (vector.diagonal || vector.orthogonal) {
+      let pointCounter = origin.point;
+      let direction = vector.direction;
       let square = null;
 
-      while (pointCounter.notEq(destination.point())) {
+      while (pointCounter.notEq(destination.point)) {
         pointCounter = pointCounter.add(direction);
         square = this.findSquareByXandY(pointCounter.x, pointCounter.y);
-        if (exists(square) && square.point().notEq(destination.point())) {
+        if (exists(square) && square.point.notEq(destination.point)) {
           _squares.push(square);
         }
       }
@@ -253,12 +253,12 @@ class SquareSet {
 
     let _squares = [].concat.apply([], destinations);
 
-    return new SquareSet({squares: _squares}).uniq();
+    return new SquareSet({squares: _squares}).uniq;
   }
 
   doesntCauseCheck(from, gameState) { 
     return this.filter((to) => {
-      let dup = gameState.dup();
+      let dup = gameState.dup;
       dup.move(from.id, to.id);
       return !dup.inCheck(gameState.currentPlayerNumber);
     });

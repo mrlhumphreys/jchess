@@ -10,16 +10,16 @@ class GameState {
     this.lastDoubleStepPawnId = args.last_double_step_pawn_id;
   }
 
-  asJson() {
+  get asJson() {
     return {
       current_player_number: this.currentPlayerNumber,
-      squares: this.squares.asJson().squares,
+      squares: this.squares.asJson.squares,
       last_double_step_pawn_id: this.lastDoubleStepPawnId
     };
   }
 
-  selectedSquare() {
-    return this.squares.selectedSquare();
+  get selectedSquare() {
+    return this.squares.selectedSquare;
   }
 
   findSquare(id) { 
@@ -41,7 +41,7 @@ class GameState {
   }
 
   capturedSquare(from, to) { 
-    if (to.occupied()) {
+    if (to.occupied) {
       return to;
     } else {
       let enPassant = exists(from) && exists(from.piece) && from.piece.type === 'pawn' && from.piece.enPassantSquare(from, this);
@@ -59,14 +59,14 @@ class GameState {
   }
 
   rookCastleMove(from, to) { 
-    if (from.occupied() && from.piece.type === 'king' && from.piece.castle(from, this).includes(to)) {
+    if (from.occupied && from.piece.type === 'king' && from.piece.castle(from, this).includes(to)) {
       let vector = new Vector(from, to);
 
-      let rookFromX = vector.directionX() > 0 ? 7 : 0;
+      let rookFromX = vector.directionX > 0 ? 7 : 0;
       let rookFromY = from.y;
       let rookFrom = this.squares.findSquareByXandY(rookFromX, rookFromY);
 
-      let rookToX = vector.directionX() > 0 ? (from.x + 1) : (from.x - 1);
+      let rookToX = vector.directionX > 0 ? (from.x + 1) : (from.x - 1);
       let rookToY = from.y;
       let rookTo = this.squares.findSquareByXandY(rookToX, rookToY);
 
@@ -90,10 +90,10 @@ class GameState {
 
   } 
 
-  dup() {
+  get dup() {
     return new GameState({
       current_player_number: this.currentPlayerNumber,
-      squares: this.squares.dup(),
+      squares: this.squares.dup,
       last_double_step_pawn_id: this.lastDoubleStepPawnId
     });
   }
@@ -103,7 +103,7 @@ class GameState {
     return playerNumber === 1 ? 2 : 1;
   }
 
-  opponent() {
+  get opponent() {
     return this.opponentOf(this.currentPlayerNumber);
   }
 

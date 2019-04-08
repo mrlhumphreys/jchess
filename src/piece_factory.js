@@ -11,7 +11,7 @@ class PieceFactory {
     this.args = args;
   } 
 
-  build() {
+  get build() {
     if (exists(this.args)) {
       if (this.args.constructorName === 'Piece') {
         return this.args;

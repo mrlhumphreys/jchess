@@ -12,7 +12,7 @@ describe("GameState", () => {
   describe('asJson', () => {
     it('must return game state as json', () => {
       let gameState = fixtures('gameState');
-      expect(gameState.asJson()).toEqual({
+      expect(gameState.asJson).toEqual({
         current_player_number: 1,
         squares: [
           { id: 'a8', x: 0, y: 0, piece: { id: 1, player_number: 2, has_moved: false, selected: false, type: 'rook' } },
@@ -99,7 +99,7 @@ describe("GameState", () => {
       let squares = new SquareSet({squares: [square]});
       let gameState = new GameState({current_player_number: 1, squares: squares});
 
-      expect(gameState.selectedSquare()).toEqual(square);
+      expect(gameState.selectedSquare).toEqual(square);
     });
 
     it('must return undefined when there is no selected square', () => {
@@ -108,7 +108,7 @@ describe("GameState", () => {
       let squares = new SquareSet({squares: [square]});
       let gameState = new GameState({current_player_number: 1, squares: squares});
 
-      expect(gameState.selectedSquare()).toBe(undefined);
+      expect(gameState.selectedSquare).toBe(undefined);
     });
   });
 
@@ -340,7 +340,7 @@ describe("GameState", () => {
       let squares = new SquareSet({squares: [square]});
       let gameState = new GameState({current_player_number: 1, squares: squares});
 
-      let dup = gameState.dup();
+      let dup = gameState.dup;
 
       expect(dup.constructor.name).toEqual('GameState');
     });
@@ -351,9 +351,9 @@ describe("GameState", () => {
       let squares = new SquareSet({squares: [square]});
       let gameState = new GameState({current_player_number: 1, squares: squares});
 
-      let dup = gameState.dup();
+      let dup = gameState.dup;
 
-      expect(dup.squares.first().piece.id).toEqual(pawn.id);
+      expect(dup.squares.first.piece.id).toEqual(pawn.id);
     });
   });
 
@@ -439,7 +439,7 @@ describe("GameState", () => {
     it('must return the not current player number', () =>{ 
       let gameState = new GameState({current_player_number: 1, squares: []});
 
-      expect(gameState.opponent()).toEqual(2);
+      expect(gameState.opponent).toEqual(2);
     });
   });
 
@@ -457,7 +457,7 @@ describe("GameState", () => {
       it('must do nothing', () => {
         let gameState = fixtures('gameState');
         gameState.selectPiece('j9'); 
-        let square = gameState.selectedSquare();
+        let square = gameState.selectedSquare;
         expect(square).toBe(undefined);
       });
     });
@@ -481,7 +481,7 @@ describe("GameState", () => {
       it('must do nothing', () => {
         let gameState = fixtures('gameState');
         gameState.deselectPiece('j9'); 
-        let square = gameState.selectedSquare();
+        let square = gameState.selectedSquare;
         expect(square).toBe(undefined);
       });
     });
@@ -499,7 +499,7 @@ describe("GameState", () => {
       let gameState = fixtures('gameState');
       gameState.promote('j9', 'queen');
       let queenSquares = gameState.squares.filter(function(s) { return s.piece !== null && s.piece.constructor == Queen });
-      expect(queenSquares.length()).toEqual(2);
+      expect(queenSquares.length).toEqual(2);
     });
   });
 });

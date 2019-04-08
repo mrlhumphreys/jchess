@@ -8,7 +8,7 @@ describe('Vector', () => {
       let pointB = new Point(7, 3);
       let vector = new Vector(pointA, pointB);
 
-      expect(vector.dx()).toEqual(6);
+      expect(vector.dx).toEqual(6);
     });
   });
 
@@ -18,7 +18,7 @@ describe('Vector', () => {
       let pointB = new Point(7, 3);
       let vector = new Vector(pointA, pointB);
 
-      expect(vector.dy()).toEqual(-1);
+      expect(vector.dy).toEqual(-1);
     });
   });
 
@@ -28,7 +28,7 @@ describe('Vector', () => {
       let pointB = new Point(7, 3); 
       let vector = new Vector(pointA, pointB); 
 
-      expect(vector.absDx()).toEqual(6);
+      expect(vector.absDx).toEqual(6);
     });
   });
 
@@ -38,7 +38,7 @@ describe('Vector', () => {
       let pointB = new Point(7, 3);
       let vector = new Vector(pointA, pointB);
 
-      expect(vector.absDy()).toEqual(1);
+      expect(vector.absDy).toEqual(1);
     });
   });
 
@@ -48,7 +48,7 @@ describe('Vector', () => {
       let pointB = new Point(5, 3);
       let vector = new Vector(pointA, pointB);
 
-      expect(vector.diagonal()).toBe(true);
+      expect(vector.diagonal).toBe(true);
     });
 
     it('must return false if the vertical and horizontal differences are not the same', () => {
@@ -56,7 +56,7 @@ describe('Vector', () => {
       let pointB = new Point(4, 3);
       let vector = new Vector(pointA, pointB);
 
-      expect(vector.diagonal()).toBe(false);
+      expect(vector.diagonal).toBe(false);
     });
   });
 
@@ -66,7 +66,7 @@ describe('Vector', () => {
       let pointB = new Point(4, 3);
       let vector = new Vector(pointA, pointB);
 
-      expect(vector.orthogonal()).toBe(true);
+      expect(vector.orthogonal).toBe(true);
     });
 
     it('must return false if the vertical and horizontal differences are not zero', () => {
@@ -74,7 +74,7 @@ describe('Vector', () => {
       let pointB = new Point(5, 3);
       let vector = new Vector(pointA, pointB);
 
-      expect(vector.orthogonal()).toBe(false);
+      expect(vector.orthogonal).toBe(false);
     });
   });
 
@@ -84,7 +84,7 @@ describe('Vector', () => {
       let pointB = new Point(5, 3);
       let vector = new Vector(pointA, pointB);
 
-      expect(vector.orthogonalOrDiagonal()).toBe(true);
+      expect(vector.orthogonalOrDiagonal).toBe(true);
     });
 
     it('must return true if the vertical or horizontal difference is zero', () => {
@@ -92,7 +92,7 @@ describe('Vector', () => {
       let pointB = new Point(4, 3);
       let vector = new Vector(pointA, pointB);
 
-      expect(vector.orthogonalOrDiagonal()).toBe(true);
+      expect(vector.orthogonalOrDiagonal).toBe(true);
     });
 
     it('must return false if the vertical and horizontal differences are not the same and not zero', () => {
@@ -100,7 +100,7 @@ describe('Vector', () => {
       let pointB = new Point(6, 3);
       let vector = new Vector(pointA, pointB);
 
-      expect(vector.orthogonalOrDiagonal()).toBe(false);
+      expect(vector.orthogonalOrDiagonal).toBe(false);
     });
   });
 
@@ -110,7 +110,7 @@ describe('Vector', () => {
       let pointB = new Point(6, 3);
       let vector = new Vector(pointA, pointB);
 
-      expect(vector.notOrthogonalOrDiagonal()).toBe(true);
+      expect(vector.notOrthogonalOrDiagonal).toBe(true);
     });
 
     it('must return false if the vertical and horizontal differences are the same', () => {
@@ -118,7 +118,7 @@ describe('Vector', () => {
       let pointB = new Point(5, 3);
       let vector = new Vector(pointA, pointB);
 
-      expect(vector.notOrthogonalOrDiagonal()).toBe(false);
+      expect(vector.notOrthogonalOrDiagonal).toBe(false);
     });
 
     it('must return false if the vertical or horizontal difference is zero', () => {
@@ -126,7 +126,7 @@ describe('Vector', () => {
       let pointB = new Point(4, 3);
       let vector = new Vector(pointA, pointB);
 
-      expect(vector.notOrthogonalOrDiagonal()).toBe(false);
+      expect(vector.notOrthogonalOrDiagonal).toBe(false);
     });
   });
 
@@ -136,7 +136,7 @@ describe('Vector', () => {
       let pointB = new Point(6, 2);
       let vector = new Vector(pointA, pointB);
 
-      expect(vector.magnitude()).toEqual(2);
+      expect(vector.magnitude).toEqual(2);
     });
   });
 
@@ -146,7 +146,7 @@ describe('Vector', () => {
       let pointB = new Point(3, 4);
       let vector = new Vector(pointA, pointB);
 
-      expect(vector.directionX()).toEqual(-1);
+      expect(vector.directionX).toEqual(-1);
     });
 
     it('must return 1 if moving right', () => {
@@ -154,7 +154,7 @@ describe('Vector', () => {
       let pointB = new Point(5, 4);
       let vector = new Vector(pointA, pointB);
 
-      expect(vector.directionX()).toEqual(1);
+      expect(vector.directionX).toEqual(1);
     });
 
     it('must return 0 if not moving up or down', () => {
@@ -162,7 +162,7 @@ describe('Vector', () => {
       let pointB = new Point(4, 4);
       let vector = new Vector(pointA, pointB);
 
-      expect(vector.directionX()).toEqual(0);
+      expect(vector.directionX).toEqual(0);
     });
   });
 
@@ -173,7 +173,7 @@ describe('Vector', () => {
       let pointB = new Point(4, 3);
       let vector = new Vector(pointA, pointB);
 
-      expect(vector.directionY()).toEqual(-1);
+      expect(vector.directionY).toEqual(-1);
     });
 
     it('must return 1 if moving down', () => {
@@ -181,7 +181,7 @@ describe('Vector', () => {
       let pointB = new Point(4, 5);
       let vector = new Vector(pointA, pointB);
 
-      expect(vector.directionY()).toEqual(1);
+      expect(vector.directionY).toEqual(1);
     });
 
     it('must return 0 if not moving left or right', () => {
@@ -189,7 +189,7 @@ describe('Vector', () => {
       let pointB = new Point(4, 4);
       let vector = new Vector(pointA, pointB);
 
-      expect(vector.directionY()).toEqual(0);
+      expect(vector.directionY).toEqual(0);
     });
   });
 
@@ -199,8 +199,8 @@ describe('Vector', () => {
       let pointB = new Point(5, 3);
       let vector = new Vector(pointA, pointB);
 
-      expect(vector.direction().x).toEqual(1);
-      expect(vector.direction().y).toEqual(-1);
+      expect(vector.direction.x).toEqual(1);
+      expect(vector.direction.y).toEqual(-1);
     });
   });
 });

@@ -7,7 +7,7 @@ describe('Square', () => {
   describe('asJson', () => {
     it('must return square as json', () => {
       let square = new Square({ id: 'a8', x: 0, y: 0, piece: { id: 1, player_number: 2, type: 'rook' } });
-      expect(square.asJson()).toEqual({
+      expect(square.asJson).toEqual({
         id: 'a8',
         x: 0,
         y: 0,
@@ -23,7 +23,7 @@ describe('Square', () => {
 
     it('returns null for piece', () => {
       let square = new Square({ id: 'a8', x: 0, y: 0, piece: null });
-      expect(square.asJson()).toEqual({
+      expect(square.asJson).toEqual({
         id: 'a8',
         x: 0,
         y: 0,
@@ -37,13 +37,13 @@ describe('Square', () => {
       let piece = new Rook({id: 1, player_number: 2, type: 'rook'});
       let square = new Square({id: 'a8', x: 0, y: 0, piece: piece});
 
-      expect(square.occupied()).toBe(true);
+      expect(square.occupied).toBe(true);
     });
 
     it('must return false if there is no piece', () => {
       let square = new Square({id: 'a8', x: 0, y: 0, piece: null});
 
-      expect(square.occupied()).toBe(false);
+      expect(square.occupied).toBe(false);
     });
   });
 
@@ -51,14 +51,14 @@ describe('Square', () => {
     it('must return true if there is no piece', () => {
       let square = new Square({id: 'a8', x: 0, y: 0, piece: null});
 
-      expect(square.unoccupied()).toBe(true);
+      expect(square.unoccupied).toBe(true);
     });
 
     it('must return false if there is a piece', () => {
       let piece = new Rook({id: 1, player_number: 2, type: 'rook'});
       let square = new Square({id: 'a8', x: 0, y: 0, piece: piece});
 
-      expect(square.unoccupied()).toBe(false);
+      expect(square.unoccupied).toBe(false);
     });
   });
 
@@ -89,7 +89,7 @@ describe('Square', () => {
       let square = new Square({id: 'c5', x: 2, y: 3, piece: null});
       let point = new Point(2, 3);
 
-      expect(square.point().eq(point)).toBe(true);
+      expect(square.point.eq(point)).toBe(true);
     });
   });
 
@@ -140,7 +140,7 @@ describe('Square', () => {
       let piece = new Rook({id: 1, player_number: 2, type: 'rook'});
       let square = new Square({id: 'a8', x: 0, y: 0, piece: piece});
 
-      let dup = square.dup();
+      let dup = square.dup;
 
       expect(dup.constructorName).toEqual('Square');
       expect(dup.x).toEqual(0);
