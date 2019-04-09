@@ -96,23 +96,6 @@ describe('match', () => {
     });
   });
 
-  describe('canMoveFrom', () => {
-    it('must return canMoveFrom from game state', () => {
-      let match = fixtures('match');
-      let from = match.gameState.findSquare('a2');
-      expect(match.canMoveFrom(from.id)).toBe(true);      
-    });
-  });
-
-  describe('canMove', () => {
-    it('must return canMove from game state', () => {
-      let match = fixtures('match');
-      let from = match.gameState.findSquare('a2');
-      let to = match.gameState.findSquare('a3');
-      expect(match.canMove(from.id, to.id)).toBe(true); 
-    });
-  });
-
   describe('capturedSquareId', () => {
     it('must return captured square id from game state', () => {
       let match = fixtures('match', {

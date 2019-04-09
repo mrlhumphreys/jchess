@@ -1,7 +1,6 @@
 import exists from './exists'
 import SquareSet from './square_set'
 import Vector from './vector'
-import Move from './move'
 
 class GameState {
   constructor(args) { 
@@ -28,16 +27,6 @@ class GameState {
 
   playersTurn(playerNumber) { 
     return this.currentPlayerNumber === playerNumber;
-  }
-
-  canMoveFrom(squareId) { 
-    let move = new Move({fromId: squareId, gameState: this});
-    return move.possible();
-  }
-
-  canMove(fromId, toId) { 
-    let move = new Move({fromId: fromId, toId: toId, gameState: this});
-    return move.valid();
   }
 
   capturedSquare(from, to) { 

@@ -144,30 +144,6 @@ describe("GameState", () => {
     });
   });
 
-  describe('canMoveFrom', () => {
-    it('must return the result from move.possible', () => {
-      let rook = new Rook({id: 1, player_number: 1, type: 'rook', selected: true});
-      let origin = new Square({id: 'a8', x: 0, y: 0, piece: rook});
-      let destination = new Square({id: 'b8', x: 1, y: 0, piece: null});
-      let squares = new SquareSet({squares: [origin, destination]});
-      let gameState = new GameState({current_player_number: 1, squares: squares});
-
-      expect(gameState.canMoveFrom(origin.id)).toBe(true);
-    });
-  });
-
-  describe('canMove', () => {
-    it('must return the result of move valid', () => {
-      let rook = new Rook({id: 1, player_number: 1, type: 'rook', selected: true});
-      let origin = new Square({id: 'a8', x: 0, y: 0, piece: rook});
-      let destination = new Square({id: 'b8', x: 1, y: 0, piece: null});
-      let squares = new SquareSet({squares: [origin, destination]});
-      let gameState = new GameState({current_player_number: 1, squares: squares});
-
-      expect(gameState.canMove(origin.id, destination.id)).toBe(true);
-    });
-  });
-
   describe('capturedSquare', () => {
     describe('destination occupied', () => {
       it('must return the destination id', () => {

@@ -1,5 +1,6 @@
 import exists from './exists'
 import GameState from './game_state'
+import Move from './move'
 
 class Match {
   constructor(args) { 
@@ -26,14 +27,6 @@ class Match {
 
   // getters
 
-  canMoveFrom(squareId) { 
-    return this.gameState.canMoveFrom(squareId);
-  }
-
-  canMove(fromId, toId) { 
-    return this.gameState.canMove(fromId, toId);
-  }
-
   capturedSquareId(from, to)  {
     return this.gameState.capturedSquareId(from, to);
   }
@@ -58,7 +51,13 @@ class Match {
       this._notify('It is not your turn.');
     } else {
       if (exists(selectedSquare)) {
-        if (this.canMove(selectedSquare.id, touchedSquare.id)) {
+        let move = new Move({
+          fromId: selectedSquare.id,
+          toId: touchedSquare.id,
+          gameState: this.gameState
+        });
+
+        if (move.valid()) {
           let dup = this.gameState.dup;
           dup.move(selectedSquare.id, touchedSquare.id);
 
@@ -78,11 +77,16 @@ class Match {
           this.gameState.deselectPiece(selectedSquare.id);
         }
       } else {
+        let move = new Move({
+          fromId: touchedSquare.id,
+          gameState: this.gameState
+        });
+
         if (touchedSquare.unoccupied) {
           this._notify('The square is empty.');
         } else if (!touchedSquare.occupiedBy(playerNumber)) {
           this._notify('That piece is not yours.');
-        } else if (this.canMoveFrom(touchedSquare.id)) {
+        } else if (move.possible()) {
           this.gameState.selectPiece(touchedSquare.id);
         } else {
           this._notify('Piece cannot move.');
