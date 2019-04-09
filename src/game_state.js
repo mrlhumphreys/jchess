@@ -30,13 +30,13 @@ class GameState {
     return this.currentPlayerNumber === playerNumber;
   }
 
-  canMoveFrom(square) { 
-    let move = new Move({from: square, gameState: this});
+  canMoveFrom(squareId) { 
+    let move = new Move({fromId: squareId, gameState: this});
     return move.possible();
   }
 
-  canMove(from, to) { 
-    let move = new Move({from: from, to: to, gameState: this});
+  canMove(fromId, toId) { 
+    let move = new Move({fromId: fromId, toId: toId, gameState: this});
     return move.valid();
   }
 

@@ -26,12 +26,12 @@ class Match {
 
   // getters
 
-  canMoveFrom(square) { 
-    return this.gameState.canMoveFrom(square);
+  canMoveFrom(squareId) { 
+    return this.gameState.canMoveFrom(squareId);
   }
 
-  canMove(from, to) { 
-    return this.gameState.canMove(from, to);
+  canMove(fromId, toId) { 
+    return this.gameState.canMove(fromId, toId);
   }
 
   capturedSquareId(from, to)  {
@@ -58,7 +58,7 @@ class Match {
       this._notify('It is not your turn.');
     } else {
       if (exists(selectedSquare)) {
-        if (this.canMove(selectedSquare, touchedSquare)) {
+        if (this.canMove(selectedSquare.id, touchedSquare.id)) {
           let dup = this.gameState.dup;
           dup.move(selectedSquare.id, touchedSquare.id);
 
@@ -82,7 +82,7 @@ class Match {
           this._notify('The square is empty.');
         } else if (!touchedSquare.occupiedBy(playerNumber)) {
           this._notify('That piece is not yours.');
-        } else if (this.canMoveFrom(touchedSquare)) {
+        } else if (this.canMoveFrom(touchedSquare.id)) {
           this.gameState.selectPiece(touchedSquare.id);
         } else {
           this._notify('Piece cannot move.');

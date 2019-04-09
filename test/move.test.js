@@ -14,7 +14,7 @@ describe('Move', () => {
       let squares = new SquareSet({squares: [origin, destination]});
       let gameState = new GameState({current_player_number: 1, squares: squares});
 
-      let move = new Move({from: origin, gameState: gameState});
+      let move = new Move({fromId: origin.id, gameState: gameState});
       expect(move.possible()).toBe(true);
       expect(move.error).toBe(null);
     });
@@ -27,14 +27,14 @@ describe('Move', () => {
       let squares = new SquareSet({squares: [origin, destination]});
       let gameState = new GameState({current_player_number: 1, squares: squares});
 
-      let move = new Move({from: origin, gameState: gameState});
+      let move = new Move({fromId: origin.id, gameState: gameState});
       expect(move.possible()).toBe(false);
       expect(move.error.name).toBe('CannotMoveError');
     });
 
     it('must return false if the square is not specified', () => {
       let gameState = fixtures('gameState');
-      let move = new Move({from: null, gameState: gameState});
+      let move = new Move({fromId: null, gameState: gameState});
 
       expect(move.possible()).toBe(false);
       expect(move.error.name).toEqual('NoSquareError');
@@ -42,8 +42,8 @@ describe('Move', () => {
 
     it('must return false if the square is empty', () => {
       let gameState = fixtures('gameState');
-      let square = new Square({id: 'a8', x: 0, y: 0, piece: null});
-      let move = new Move({from: square, gameState: gameState});
+      let square = new Square({id: 'a6', x: 0, y: 2, piece: null});
+      let move = new Move({fromId: square.id, gameState: gameState});
 
       expect(move.possible()).toBe(false);
       expect(move.error.name).toEqual('NoPieceError');
@@ -58,7 +58,7 @@ describe('Move', () => {
       let squares = new SquareSet({squares: [origin, destination]});
       let gameState = new GameState({current_player_number: 1, squares: squares});
 
-      let move = new Move({from: origin, to: destination, gameState: gameState});
+      let move = new Move({fromId: origin.id, toId: destination.id, gameState: gameState});
       expect(move.valid()).toBe(true);
       expect(move.error).toBe(null);
     });
@@ -71,14 +71,14 @@ describe('Move', () => {
       let squares = new SquareSet({squares: [origin, destination]});
       let gameState = new GameState({current_player_number: 1, squares: squares});
 
-      let move = new Move({from: origin, to: destination, gameState: gameState});
+      let move = new Move({fromId: origin.id, toId: destination.id, gameState: gameState});
       expect(move.valid()).toBe(false);
       expect(move.error.name).toEqual('CannotMoveError');
     });
 
     it('must return false if the square is not specified', () => {
       let gameState = fixtures('gameState');
-      let move = new Move({from: null, gameState: gameState});
+      let move = new Move({fromId: null, gameState: gameState});
 
       expect(move.valid()).toBe(false);
       expect(move.error.name).toEqual('NoSquareError');
@@ -86,8 +86,8 @@ describe('Move', () => {
 
     it('must return false if the square is empty', () => {
       let gameState = fixtures('gameState');
-      let square = new Square({id: 'a8', x: 0, y: 0, piece: null});
-      let move = new Move({from: square, gameState: gameState});
+      let square = new Square({id: 'a6', x: 0, y: 2, piece: null});
+      let move = new Move({fromId: square.id, gameState: gameState});
 
       expect(move.valid()).toBe(false);
       expect(move.error.name).toEqual('NoPieceError');

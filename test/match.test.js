@@ -100,7 +100,7 @@ describe('match', () => {
     it('must return canMoveFrom from game state', () => {
       let match = fixtures('match');
       let from = match.gameState.findSquare('a2');
-      expect(match.canMoveFrom(from)).toBe(true);      
+      expect(match.canMoveFrom(from.id)).toBe(true);      
     });
   });
 
@@ -109,7 +109,7 @@ describe('match', () => {
       let match = fixtures('match');
       let from = match.gameState.findSquare('a2');
       let to = match.gameState.findSquare('a3');
-      expect(match.canMove(from, to)).toBe(true); 
+      expect(match.canMove(from.id, to.id)).toBe(true); 
     });
   });
 

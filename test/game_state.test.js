@@ -152,7 +152,7 @@ describe("GameState", () => {
       let squares = new SquareSet({squares: [origin, destination]});
       let gameState = new GameState({current_player_number: 1, squares: squares});
 
-      expect(gameState.canMoveFrom(origin)).toBe(true);
+      expect(gameState.canMoveFrom(origin.id)).toBe(true);
     });
   });
 
@@ -164,7 +164,7 @@ describe("GameState", () => {
       let squares = new SquareSet({squares: [origin, destination]});
       let gameState = new GameState({current_player_number: 1, squares: squares});
 
-      expect(gameState.canMove(origin, destination)).toBe(true);
+      expect(gameState.canMove(origin.id, destination.id)).toBe(true);
     });
   });
 
