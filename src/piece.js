@@ -55,14 +55,7 @@ class Piece {
   }
 
   get dup() {
-    let _piece = {
-      type: this.type,
-      player_number: this.playerNumber,
-      selected: this.selected,
-      id: this.id,
-      has_moved: this.hasMoved
-    }
-    return new this.constructor(_piece);
+    return new this.constructor(this.asJson);
   }
 
   // actions

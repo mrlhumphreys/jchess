@@ -84,6 +84,94 @@ describe('Square', () => {
     });
   });
 
+  describe('occupiedByOpponentOf', () => {
+    describe('with square owned by player', () => {
+      it('must return false', () => {
+        let square = new Square({id: 'a8', x: 0, y: 0, piece: { player_number: 1, type: 'pawn' } });
+        expect(square.occupiedByOpponentOf(1)).toBe(false);
+      });
+    });
+
+    describe('with square owned by opponent of player', () => {
+      it('must return true', () => {
+        let square = new Square({id: 'a8', x: 0, y: 0, piece: { player_number: 2, type: 'pawn' } });
+        expect(square.occupiedByOpponentOf(1)).toBe(true);
+      });
+    });
+  });
+
+  describe('unoccupiedOrOccupiedByOpponentOf', () => {
+    describe('with square owned by player', () => {
+      it('must return false', () => {
+        let square = new Square({id: 'a8', x: 0, y: 0, piece: { player_number: 1, type: 'pawn' } });
+        expect(square.occupiedByOpponentOf(1)).toBe(false);
+      });
+
+    });
+
+    describe('with square owned by opponent of player', () => {
+      it('must return true', () => {
+        let square = new Square({id: 'a8', x: 0, y: 0, piece: { player_number: 2, type: 'pawn' } });
+        expect(square.occupiedByOpponentOf(1)).toBe(true);
+      });
+
+    });
+
+    describe('with empty square', () => {
+      it('must return false', () => {
+        let square = new Square({id: 'a8', x: 0, y: 0, piece: null });
+        expect(square.occupiedByOpponentOf(1)).toBe(false);
+      });
+    });
+  });
+
+  describe('occupiedByPiece', () => {
+    describe('with square with matching piece', () => {
+      it('must return true', () => {
+        let square = new Square({id: 'a8', x: 0, y: 0, piece: { player_number: 1, type: 'pawn' } });
+        expect(square.occupiedByPiece('pawn')).toBe(true);
+      });
+
+    });
+
+    describe('with square without matching piece', () => {
+      it('must return false', () => {
+        let square = new Square({id: 'a8', x: 0, y: 0, piece: { player_number: 1, type: 'pawn' } });
+        expect(square.occupiedByPiece('king')).toBe(false);
+      });
+    });
+
+    describe('with empty square', () => {
+      it('must return false', () => {
+        let square = new Square({id: 'a8', x: 0, y: 0, piece: null });
+        expect(square.occupiedByPiece('king')).toBe(false);
+      });
+    });
+  });
+
+  describe('notOccupiedByPiece', () => {
+    describe('with square with matching piece', () => {
+      it('must return false', () => {
+        let square = new Square({id: 'a8', x: 0, y: 0, piece: { player_number: 1, type: 'pawn' } });
+        expect(square.notOccupiedByPiece('pawn')).toBe(false);
+      });
+    });
+
+    describe('with square without matching piece', () => {
+      it('must return true', () => {
+        let square = new Square({id: 'a8', x: 0, y: 0, piece: { player_number: 1, type: 'pawn' } });
+        expect(square.notOccupiedByPiece('king')).toBe(true);
+      });
+    });
+
+    describe('with empty square', () => {
+      it('must return true', () => {
+        let square = new Square({id: 'a8', x: 0, y: 0, piece: null });
+        expect(square.notOccupiedByPiece('king')).toBe(false);
+      });
+    });
+  });
+
   describe('point', () => {
     it('must return a point object wit the same x and y co-ordinates', () => {
       let square = new Square({id: 'c5', x: 2, y: 3, piece: null});

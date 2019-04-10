@@ -183,31 +183,31 @@ class SquareSet {
 
   occupiedByPlayer(playerNumber) { 
     return this.filter(function(s) {
-      return exists(s.piece) && s.piece.playerNumber === playerNumber; 
+      return s.occupiedBy(playerNumber);
     });
   }
 
   occupiedByOpponent(playerNumber) {
     return this.filter(function(s) {
-      return exists(s.piece) && s.piece.playerNumber != playerNumber;
+      return s.occupiedByOpponentOf(playerNumber);
     });
   }
 
   unoccupiedOrOccupiedByOpponent(playerNumber) { 
     return this.filter(function(s) {
-      return !exists(s.piece) || s.piece.playerNumber != playerNumber;
+      return s.unoccupiedOrOccupiedByOpponentOf(playerNumber);
     });
   }
 
   occupiedByPiece(pieceType) { 
     return this.filter(function(s) {
-      return exists(s.piece) && s.piece.type === pieceType;
+      return s.occupiedByPiece(pieceType);
     });
   }
 
   excludingPiece(pieceType) { 
     return this.filter(function(s) {
-      return exists(s.piece) && s.piece.type != pieceType;
+      return s.notOccupiedByPiece(pieceType);
     });
   }
 

@@ -39,6 +39,22 @@ class Square {
     return this.occupied && this.piece.playerNumber === playerNumber;
   }
 
+  occupiedByOpponentOf(playerNumber) {
+    return this.occupied && this.piece.playerNumber != playerNumber;
+  }
+
+  unoccupiedOrOccupiedByOpponentOf(playerNumber) {
+    return this.unoccupied || this.occupiedByOpponentOf(playerNumber);
+  }
+
+  occupiedByPiece(pieceType) {
+    return this.occupied && this.piece.type === pieceType;
+  }
+
+  notOccupiedByPiece(pieceType) {
+    return this.occupied && this.piece.type != pieceType;
+  }
+
   get point() {
     return new Point(this.x, this.y);
   }
