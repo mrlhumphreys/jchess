@@ -11,7 +11,7 @@ class Match {
     this.currentMove = exists(args.current_move) ? args.current_move : {};
     this.promotion = exists(args.promotion) ? args.promotion : false;
     this.lastAction = exists(args.last_action) ? args.last_action : {};
-    this.notification = exists(args.notification) ? args.notification : null;
+    this.notification = exists(args.notification) ? args.notification : this._defaultMessage;
   }
 
   get asJson() {
@@ -103,7 +103,28 @@ class Match {
     this._teardownPromotion();
   }
 
-  // setter actions
+  // private getters
+  get _turnMessage() {
+    let currentPlayerIndex = this.gameState.currentPlayerNumber - 1;
+    let currentPlayerName = this.players[currentPlayerIndex].name;
+    return `${currentPlayerName} to move`;
+  }
+
+  get _winnerMessage() {
+    let winnerIndex = this.winner - 1;
+    let winnerName = this.players[winnerIndex].name;
+    return `${winnerName} wins`;
+  }
+
+  get _defaultMessage() {
+    if (exists(this.winner)) {
+      return this._winnerMessage;
+    } else {
+      return this._turnMessage;
+    }
+  }
+
+  // private setters
 
   _setupPromotion(fromId, toId) {
     this.currentMove = { fromId: fromId, toId: toId };

@@ -2,6 +2,22 @@ import fixtures from './fixtures'
 import Queen from '../src/queen'
 
 describe('match', () => {
+  describe('initialize', () => {
+    describe('with no winner', () => {
+      it('sets the notification to a players turn message', () => {
+        let match = fixtures('match');
+        expect(match.notification).toEqual('aaa to move');
+      });
+    });
+    
+    describe('with winner', () => {
+      it('sets the notification to winner message', () => {
+        let match = fixtures('match', { winner: 2 });
+        expect(match.notification).toEqual('bbb wins');
+      });
+    });
+  });
+
   describe('asJson', () => {
     it('must return match as json', () => {
       let match = fixtures('match');
@@ -92,7 +108,7 @@ describe('match', () => {
         ],
         winner: null,
         last_action: {}, 
-        notification: null
+        notification: 'aaa to move' 
       });
     });
   });
