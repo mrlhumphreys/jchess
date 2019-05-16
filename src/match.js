@@ -11,6 +11,7 @@ class Match {
     this.currentMove = exists(args.current_move) ? args.current_move : {};
     this.promotion = exists(args.promotion) ? args.promotion : false;
     this.lastAction = exists(args.last_action) ? args.last_action : {};
+    this.notification = exists(args.notification) ? args.notification : null;
   }
 
   get asJson() {
@@ -21,7 +22,8 @@ class Match {
       winner: this.winner,
       current_move: this.currentMove,
       promotion: this.promotion,
-      last_action: this.lastAction   
+      last_action: this.lastAction,
+      notification: this.notification
     };
   }
 
@@ -122,7 +124,7 @@ class Match {
   }
 
   _notify(message) {
-    this.lastAction = { kind: 'notification', data: { message : message } };
+    this.notification = message;
   }
 }
 

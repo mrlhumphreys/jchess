@@ -91,7 +91,8 @@ describe('match', () => {
           { number: 2, name: 'bbb' }
         ],
         winner: null,
-        last_action: {} 
+        last_action: {}, 
+        notification: null
       });
     });
   });
@@ -149,7 +150,7 @@ describe('match', () => {
       it('notifies with a message', () => {
         let match = fixtures('match', { winner: 1 });
         match.touchSquare(1, 1);
-        expect(match.lastAction.data.message).toEqual('Game is over.');
+        expect(match.notification).toEqual('Game is over.');
       });
     });
 
@@ -157,7 +158,7 @@ describe('match', () => {
       it('notifies with a message', () => {
         let match = fixtures('match', { game_state: { current_player_number: 2 } });
         match.touchSquare(1, 1);
-        expect(match.lastAction.data.message).toEqual('It is not your turn.');
+        expect(match.notification).toEqual('It is not your turn.');
       });
     });
 
@@ -167,7 +168,7 @@ describe('match', () => {
           it('notifies with a message', () => {
             let match = fixtures('moveToCheckMatch');
             match.touchSquare('a1', 1);
-            expect(match.lastAction.data.message).toEqual('Move puts king in check.');
+            expect(match.notification).toEqual('Move puts king in check.');
           });
         });
 
@@ -204,7 +205,7 @@ describe('match', () => {
         it('notifies with a message', () => {
           let match = fixtures('moveMatch');
           match.touchSquare('c3', 1);
-          expect(match.lastAction.data.message).toEqual('Invalid move.');
+          expect(match.notification).toEqual('Invalid move.');
         });
 
         it('deselects the piece', () => {
@@ -221,7 +222,7 @@ describe('match', () => {
         it('notifies with a message', () => {
           let match = fixtures('match');
           match.touchSquare('d3', 1);
-          expect(match.lastAction.data.message).toEqual('The square is empty.');
+          expect(match.notification).toEqual('The square is empty.');
         });
       });
 
@@ -229,7 +230,7 @@ describe('match', () => {
         it('notifies with a message', () => {
           let match = fixtures('match');
           match.touchSquare('b7', 1);
-          expect(match.lastAction.data.message).toEqual('That piece is not yours.');
+          expect(match.notification).toEqual('That piece is not yours.');
         });
       });
 
@@ -246,7 +247,7 @@ describe('match', () => {
         it('notifies with a message', () => {
           let match = fixtures('match');
           match.touchSquare('a1', 1);
-          expect(match.lastAction.data.message).toEqual('Piece cannot move.');
+          expect(match.notification).toEqual('Piece cannot move.');
         });
       });
     });
