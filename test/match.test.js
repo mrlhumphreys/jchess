@@ -162,6 +162,14 @@ describe('match', () => {
   });
 
   describe('touchSquare', () => {
+    describe('with a last action', () => {
+      it('clears last action', () => {
+        let match = fixtures('match', { last_action: { kind: 'misc', data: { a: 1 } } });
+        match.touchSquare('d3',1);
+        expect(match.lastAction).toBe(null);
+      });
+    });
+
     describe('with a winner', () => {
       it('notifies with a message', () => {
         let match = fixtures('match', { winner: 1 });
@@ -173,7 +181,7 @@ describe('match', () => {
     describe('not the players turn', () => {
       it('notifies with a message', () => {
         let match = fixtures('match', { game_state: { current_player_number: 2 } });
-        match.touchSquare(1, 1);
+        match.touchSquare('d3', 1);
         expect(match.notification).toEqual('It is not your turn.');
       });
     });

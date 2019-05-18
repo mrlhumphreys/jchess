@@ -47,6 +47,8 @@ class Match {
     let selectedSquare = this.gameState.selectedSquare;
     let touchedSquare = this.gameState.findSquare(squareId);
 
+    this._clearLastAction();
+
     if (exists(this.winner)) {
       this._notify('Game is over.'); 
     } else if (!this.gameState.playersTurn(playerNumber)) {
@@ -142,6 +144,10 @@ class Match {
     } else {
       this.lastAction = { kind: 'move', data: { fromId: fromId, toId: toId } };
     }
+  }
+
+  _clearLastAction() {
+    this.lastAction = null;
   }
 
   _notify(message) {
