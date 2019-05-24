@@ -206,6 +206,12 @@ describe('match', () => {
             expect(to.piece).not.toBe(null);
           });
 
+          it('passes the turn', () => {
+            let match = fixtures('moveMatch');
+            match.touchSquare('d3', 1);
+            expect(match.gameState.currentPlayerNumber).toEqual(2); 
+          });
+
           describe('when promoting', () => {
             it('sets up promotion', () => {
               let match = fixtures('toPromoteMatch');

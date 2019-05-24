@@ -73,6 +73,7 @@ class Match {
               this._setupPromotion(selectedSquare.id, touchedSquare.id);
             } else {
               this.gameState.move(selectedSquare.id, touchedSquare.id);
+              this.gameState.passTurn();
               this._addMoveToLastAction(selectedSquare.id, touchedSquare.id);
             }
           }
