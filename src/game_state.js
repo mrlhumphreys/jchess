@@ -69,15 +69,41 @@ class GameState {
     return exists(from.piece) && from.piece.type === 'pawn' && to.lastRank(from.piece.playerNumber);
   }
 
+  inCheckmate(playerNumber) {
+    return (this.inCheck(playerNumber) || this.nonKingPiecesCannotMove(playerNumber)) && this.kingCannotMove(playerNumber);
+  } 
+
   inCheck(playerNumber) { 
     let kingSquare = this.squares.findKingForPlayer(playerNumber);
     let threatenedBy = this.squares.threatenedBy(this.opponentOf(playerNumber), this);
     return threatenedBy.includes(kingSquare);
   }
 
-  inCheckmate(playerNumber) {
+  nonKingPiecesCannotMove(playerNumber) {
+    return this.squares.occupiedByPlayer(playerNumber).excludingPiece('king').every((s) => { 
+      return s.piece.destinations(s, this).none();
+    });
+  }
 
-  } 
+  kingCannotMove(playerNumber) {
+    let kingSquare = this.squares.findKingForPlayer(playerNumber);
+    let destinations = kingSquare.piece.destinations(kingSquare, this);
+    return destinations.every((d) => {
+      let duplicate = this.dup;
+      duplicate.move(kingSquare.id, d.id);
+      return duplicate.inCheck(playerNumber);
+    });
+  }
+
+  get winner() {
+    if (this.inCheckmate(1)) {
+      return 2;
+    } else if (this.inCheckmate(2)) {
+      return 1;
+    } else {
+      return null;
+    }
+  }
 
   get dup() {
     return new GameState({

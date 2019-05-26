@@ -309,6 +309,70 @@ describe("GameState", () => {
     });
   });
 
+  describe('inCheckmate', () => {
+    describe('king is under attack and cannot move', () => {
+      it('must return true', () => {
+        let gameState = fixtures('checkmateGameState');
+        expect(gameState.inCheckmate(1)).toBe(true);
+      });
+    });
+
+    describe('king is free to move', () => {
+      it('must return false', () => {
+        let gameState = fixtures('gameState');
+        expect(gameState.inCheckmate(1)).toBe(false);
+      });
+    });
+  });
+
+  describe('nonKingPiecesCannotMove', () => {
+    describe('all pieces except king cannot move', () => {
+      it('must return true', () => {
+        let gameState = fixtures('nonKingPiecesCannotMoveGameState');
+        expect(gameState.nonKingPiecesCannotMove(1)).toBe(true);
+      });
+    });
+
+    describe('some pieces except king cannot move', () => {
+      it('must return false', () => {
+        let gameState = fixtures('gameState');
+        expect(gameState.nonKingPiecesCannotMove(1)).toBe(false);
+      });
+    });
+  });
+
+  describe('kingCannotMove', () => {
+    describe('when king cannot move', () => {
+      it('must return true', () => {
+        let gameState = fixtures('kingCannotMoveGameState');
+        expect(gameState.kingCannotMove(1)).toBe(true);
+      });
+    });
+
+    describe('when king can move', () => {
+      it('must return false', () => {
+        let gameState = fixtures('kingCanMoveGameState');
+        expect(gameState.kingCannotMove(1)).toBe(false);
+      });
+    });
+  });
+
+  describe('winner', () => {
+    describe('player in checkmate', () => {
+      it('must return the player not in checkmate', () => {
+        let gameState = fixtures('checkmateGameState');
+        expect(gameState.winner).toEqual(2);
+      });
+    });
+
+    describe('no player in checkmate', () => {
+      it('must return null', () => {
+        let gameState = fixtures('gameState');
+        expect(gameState.winner).toBe(null);
+      });
+    });
+  });
+
   describe('dup', () => {
     it('must return another game state', () => {
       let pawn = new Pawn({id: 17, player_number: 1, type: 'pawn', selected: true});
