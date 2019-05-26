@@ -12,7 +12,7 @@ describe('match', () => {
     
     describe('with winner', () => {
       it('sets the notification to winner message', () => {
-        let match = fixtures('match', { winner: 2 });
+        let match = fixtures('winnerMatch');
         expect(match.notification).toEqual('bbb wins');
       });
     });
@@ -120,7 +120,9 @@ describe('match', () => {
           current_player_number: 2,
           squares: [
             { id: 'a8', x: 0, y: 0, piece: { id: 1, player_number: 2, type: 'rook' } },
+            { id: 'e8', x: 4, y: 0, piece: { id: 5, player_number: 2, type: 'king' } },
             { id: 'b8', x: 1, y: 0, piece: { id: 17 , player_number: 1, type: 'pawn' } },
+            { id: 'e1', x: 4, y: 7, piece: { id: 29, player_number: 1, type: 'king' } }
           ]
         }
       });
@@ -137,6 +139,7 @@ describe('match', () => {
       let match = fixtures('match', {
         game_state: {
           squares: [
+            { id: 'e8', x: 4, y: 0, piece: { id: 5, player_number: 2, type: 'king' } },
             { id: 'e1', x: 4, y: 7, piece: { id: 29, player_number: 1, type: 'king' } },
             { id: 'f1', x: 5, y: 7, piece: null },
             { id: 'g1', x: 6, y: 7, piece: null },
