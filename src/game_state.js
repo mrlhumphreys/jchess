@@ -113,7 +113,6 @@ class GameState {
     });
   }
 
-
   opponentOf(playerNumber) { 
     return playerNumber === 1 ? 2 : 1;
   }

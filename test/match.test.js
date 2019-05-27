@@ -209,6 +209,13 @@ describe('match', () => {
             expect(to.piece).not.toBe(null);
           });
 
+          it('deselects the piece', () => {
+            let match = fixtures('moveMatch');
+            match.touchSquare('d3', 1);
+            let piece = match.gameState.findSquare('d3').piece;
+            expect(piece.selected).toBe(false);
+          });
+
           it('passes the turn', () => {
             let match = fixtures('moveMatch');
             match.touchSquare('d3', 1);

@@ -72,6 +72,7 @@ class Match {
               this.gameState.move(selectedSquare.id, touchedSquare.id);
               this._setupPromotion(selectedSquare.id, touchedSquare.id);
             } else {
+              this.gameState.deselectPiece(selectedSquare.id);
               this.gameState.move(selectedSquare.id, touchedSquare.id);
               this.gameState.passTurn();
               this._addMoveToLastAction(selectedSquare.id, touchedSquare.id);
