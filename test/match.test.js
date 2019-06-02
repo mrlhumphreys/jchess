@@ -103,12 +103,34 @@ describe('match', () => {
           ]  
         },
         players: [
-          { number: 1, name: 'aaa' },
-          { number: 2, name: 'bbb' }
+          { player_number: 1, name: 'aaa', resigned: false },
+          { player_number: 2, name: 'bbb', resigned: false }
         ],
-        winner: null,
         last_action: {}, 
         notification: 'aaa to move' 
+      });
+    });
+  });
+
+  describe('winner', () => {
+    describe('with someone winning on the board', () => {
+      it('must return the number of the winner', () => {
+        let match = fixtures('winnerMatch');
+        expect(match.winner).toEqual(2);
+      });
+    });
+
+    describe('with no one winning on the board', () => {
+      it('must return null', () => {
+        let match = fixtures('match');
+        expect(match.winner).toBe(null);
+      });
+    });
+
+    describe('with someone resigining', () => {
+      it('must return the number of the player who did not resign', () => {
+        let match = fixtures('resignedMatch');
+        expect(match.winner).toEqual(2);
       });
     });
   });
@@ -175,7 +197,7 @@ describe('match', () => {
 
     describe('with a winner', () => {
       it('notifies with a message', () => {
-        let match = fixtures('match', { winner: 1 });
+        let match = fixtures('winnerMatch');
         match.touchSquare(1, 1);
         expect(match.notification).toEqual('Game is over.');
       });

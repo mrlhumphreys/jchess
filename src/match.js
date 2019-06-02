@@ -1,13 +1,13 @@
 import exists from './exists'
 import GameState from './game_state'
 import Move from './move'
+import Player from './player';
 
 class Match {
   constructor(args) { 
     this.id = args.id;
     this.gameState = new GameState(args.game_state);
-    this.players = args.players;
-    this.winner = args.winner;
+    this.players = args.players.map(function(p) { return new Player(p); });
     this.currentMove = exists(args.current_move) ? args.current_move : {};
     this.promotion = exists(args.promotion) ? args.promotion : false;
     this.lastAction = exists(args.last_action) ? args.last_action : {};
@@ -18,13 +18,21 @@ class Match {
     return {
       id: this.id,
       game_state: this.gameState.asJson,
-      players: this.players,
-      winner: this.winner,
+      players: this.players.map(function(p) { return p.asJson(); }),
       current_move: this.currentMove,
       promotion: this.promotion,
       last_action: this.lastAction,
       notification: this.notification
     };
+  }
+
+  get winner() {
+    let playerResigned = this.players.some(function(p) { return p.resigned; });
+    if (playerResigned) {
+      return this.players.filter(function(p) { return !p.resigned; })[0].playerNumber;
+    } else {
+      return this.gameState.winner;
+    }
   }
 
   // getters
@@ -108,20 +116,24 @@ class Match {
   }
 
   // private getters
+  //
+  
+  _findPlayerByNumber(playerNumber) {
+    return this.players.filter((p) => { return p.playerNumber == playerNumber; })[0];
+  }
+
   get _turnMessage() {
-    let currentPlayerIndex = this.gameState.currentPlayerNumber - 1;
-    let currentPlayerName = this.players[currentPlayerIndex].name;
-    return `${currentPlayerName} to move`;
+    let currentPlayer = this._findPlayerByNumber(this.gameState.currentPlayerNumber);
+    return `${currentPlayer.name} to move`;
   }
 
   get _winnerMessage() {
-    let winnerIndex = this.gameState.winner - 1;
-    let winnerName = this.players[winnerIndex].name;
-    return `${winnerName} wins`;
+    let winningPlayer = this._findPlayerByNumber(this.winner);
+    return `${winningPlayer.name} wins`;
   }
 
   get _defaultMessage() {
-    if (exists(this.gameState.winner)) {
+    if (exists(this.winner)) {
       return this._winnerMessage;
     } else {
       return this._turnMessage;
