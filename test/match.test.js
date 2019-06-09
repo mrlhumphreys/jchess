@@ -106,7 +106,7 @@ describe('match', () => {
           { player_number: 1, name: 'aaa', resigned: false },
           { player_number: 2, name: 'bbb', resigned: false }
         ],
-        last_action: {}, 
+        last_action: null, 
         notification: 'aaa to move' 
       });
     });

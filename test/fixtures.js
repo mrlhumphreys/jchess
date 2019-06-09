@@ -2,17 +2,8 @@ import exists from '../src/exists'
 import Match from '../src/match'
 import GameState from '../src/game_state'
 import SquareSet from '../src/square_set'
-import Player from '../src/player'
 
 const fixtureDefinitions = {
-  player: {
-    klass: Player,
-    args: {
-      player_number: 1,
-      name: 'aaa',
-      resigned: false
-    }
-  },
   gameState: {
     klass: GameState,
     args: {
