@@ -52,27 +52,33 @@ Initialize a new match object:
   });
 ```
 
-Check if Move Possible
+Serialize match
 
 ```javascript
-  // square that piece is on.
-  var from = match.findSquare('a8');
-
-  // returns true if that piece can move.
-  match.canMoveFrom(from); 
+  match.asJson;
 ```
 
-Check if Move Valid
+Make Move
 
 ```javascript
-  // square the piece is on.
-  var from = match.findSquare('a8');
+  playerNumber = 1;
+  match.touchSquare('e2', playerNumber); // select piece at e2
+  match.touchSquare('e4', playerNumber); // move piece to e4 
+```
 
-  // square the piece is on.
-  var to = match.findSquare('b8');
+Select Piece Type to Promote
 
-  // returns true if that piece can move to that square.
-  match.canMove(from, to); 
+```javascript
+  playerNumber = 1;
+  match.touchSquare('e7', playerNumber); // select piece at e7
+  match.touchSquare('e8', playerNumber); // move piece to e8 
+  match.touchPromotionPiece('queen', playerNumber); // promote to queen
+```
+
+Get winner
+
+```javascript
+  match.winner
 ```
 
 ## Development
