@@ -27,20 +27,6 @@ class Match {
     return winner(this);
   }
 
-  // getters
-
-  capturedSquareId(from, to)  {
-    return this.gameState.capturedSquareId(from, to);
-  }
-
-  rookCastleMove(from, to) { 
-    return this.gameState.rookCastleMove(from, to);
-  }
-
-  pawnMoveToLastRank(from, to) { 
-    return this.gameState.pawnMoveToLastRank(from, to);
-  }
-
   // user actions
 
   touchSquare(squareId, playerNumber) {
@@ -68,7 +54,7 @@ class Match {
           if (dup.inCheck(this.gameState.currentPlayerNumber)) {
             this._notify('Move puts king in check.');
           } else {
-            if (this.pawnMoveToLastRank(selectedSquare, touchedSquare)) {
+            if (this._pawnMoveToLastRank(selectedSquare, touchedSquare)) {
               this.gameState.move(selectedSquare.id, touchedSquare.id);
               this._setupPromotion(selectedSquare.id, touchedSquare.id);
             } else {
@@ -105,6 +91,12 @@ class Match {
     this.gameState.promote(this.currentMove.toId, pieceType);
     this._addMoveToLastAction(this.currentMove.fromId, this.currentMove.toId, pieceType);
     this._teardownPromotion();
+  }
+
+  // private getters
+  
+  _pawnMoveToLastRank(from, to) { 
+    return this.gameState.pawnMoveToLastRank(from, to);
   }
   
   // private setters
