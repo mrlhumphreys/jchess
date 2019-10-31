@@ -1,4 +1,13 @@
-import exists from '../src/exists'
+import { compact, exists } from '../src/utils'
+
+describe('compact', () => {
+  it('must return a new array without nulls', () => {
+    let array = [1, null, 3];
+    let result = compact(array);
+    let expected = [1, 3];
+    expect(result).toEqual(expected);
+  });
+});
 
 describe("exists", () => {
   describe("with null", () => {

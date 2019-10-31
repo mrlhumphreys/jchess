@@ -135,54 +135,12 @@ describe('match', () => {
     });
   });
 
-  describe('capturedSquareId', () => {
-    it('must return captured square id from game state', () => {
-      let match = fixtures('match', {
-        game_state: {
-          current_player_number: 2,
-          squares: [
-            { id: 'a8', x: 0, y: 0, piece: { id: 1, player_number: 2, type: 'rook' } },
-            { id: 'e8', x: 4, y: 0, piece: { id: 5, player_number: 2, type: 'king' } },
-            { id: 'b8', x: 1, y: 0, piece: { id: 17 , player_number: 1, type: 'pawn' } },
-            { id: 'e1', x: 4, y: 7, piece: { id: 29, player_number: 1, type: 'king' } }
-          ]
-        }
-      });
-
-      let from = match.gameState.findSquare('a8');
-      let to = match.gameState.findSquare('b8');
-
-      expect(match.capturedSquareId(from, to)).toEqual('b8')
-    });
-  });
-
-  describe('rookCastleMove', () => {
-    it('must return the rook castle move from game state', () => {
-      let match = fixtures('match', {
-        game_state: {
-          squares: [
-            { id: 'e8', x: 4, y: 0, piece: { id: 5, player_number: 2, type: 'king' } },
-            { id: 'e1', x: 4, y: 7, piece: { id: 29, player_number: 1, type: 'king' } },
-            { id: 'f1', x: 5, y: 7, piece: null },
-            { id: 'g1', x: 6, y: 7, piece: null },
-            { id: 'h1', x: 7, y: 7, piece: { id: 32, player_number: 1, type: 'rook' } }
-          ]
-        }
-      });
-
-      let from = match.gameState.findSquare('e1');
-      let to = match.gameState.findSquare('g1');
-      
-      expect(match.rookCastleMove(from, to)).toEqual({fromId: 'h1', toId: 'f1'}); 
-    });
-  });
-
   describe('pawnMoveToLastRank', () => {
     it('must return pawn move to last rank from game state', () => {
       let match = fixtures('toPromoteMatch');
       let from = match.gameState.findSquare('a7');
       let to = match.gameState.findSquare('a8');
-      expect(match.pawnMoveToLastRank(from, to)).toBe(true); 
+      expect(match._pawnMoveToLastRank(from, to)).toBe(true); 
     });
   });
 
@@ -267,7 +225,7 @@ describe('match', () => {
         it('notifies with a message', () => {
           let match = fixtures('moveMatch');
           match.touchSquare('c3', 1);
-          expect(match.notification).toEqual('Invalid move.');
+          expect(match.notification).toEqual('Piece cannot move.');
         });
 
         it('deselects the piece', () => {
@@ -284,7 +242,7 @@ describe('match', () => {
         it('notifies with a message', () => {
           let match = fixtures('match');
           match.touchSquare('d3', 1);
-          expect(match.notification).toEqual('The square is empty.');
+          expect(match.notification).toEqual('Square is empty.');
         });
       });
 
@@ -292,7 +250,7 @@ describe('match', () => {
         it('notifies with a message', () => {
           let match = fixtures('match');
           match.touchSquare('b7', 1);
-          expect(match.notification).toEqual('That piece is not yours.');
+          expect(match.notification).toEqual('Piece is owned by opponent.');
         });
       });
 

@@ -1,47 +1,62 @@
-import exists from './exists'
+import { exists } from './utils'
 
 class Move {
   constructor(args) {
-    this.fromId = args.fromId;
-    this.toId = args.toId;
-    this.gameState = args.gameState;
-    this.error = null;
+    this.touchedId = args.touchedId;
+    this.playerNumber = args.playerNumber;
+    this.match = args.match;
   }
 
-  possible() {
-    if (!exists(this._from)) {
-      this.error = { name: 'NoSquareError', message: 'Square must be specified' }; 
-    } else if (!exists(this._from.piece)) {
-      this.error = { name: 'NoPieceError', message: 'Square must have a piece on it' };
-    } else if (!this._from.piece.canMoveFrom(this._from, this.gameState)) {
-      this.error = { name: 'CannotMoveError', message: 'Piece cannot move' };
-    } else {
-      this.error = null;
+  get result() {
+    if (exists(this.match.winner)) {
+      return { name: 'GameOver', message: 'Game is over.' };
     }
 
-    return this.error === null;
-  }
-
-  valid() {
-    if (!exists(this._from)) {
-      this.error = { name: 'NoSquareError', message: 'Square must be specified' };
-    } else if (!exists(this._from.piece)) {
-      this.error = { name: 'NoPieceError', message: 'Square must have a piece on it' };
-    } else if (!this._from.piece.canMove(this._from, this._to, this.gameState)) {
-      this.error = { name: 'CannotMoveError', message: 'Piece cannot move that way' };
-    } else {
-      this.error = null;
+    if (!this.match.gameState.playersTurn(this.playerNumber)) {
+      return { name: 'NotPlayersTurn', message: 'It is not your turn.' };
     }
 
-    return this.error === null;
+    if (exists(this._selectedSquare)) {
+      if (this._putsKingInCheck) {
+        return { name: 'KingInCheck', message: 'Move puts king in check.' };
+      } else if (this._pawnMovesToLastRank) {
+        return { name: 'PawnMovesToLastRank', message: 'Pawn can promote.' };
+      } else if (!this._selectedSquare.piece.canMove(this._selectedSquare, this._touched, this.match.gameState)) {
+        return { name: 'MoveInvalid', message: 'Piece cannot move.' };
+      } else {
+        return { name: 'MoveValid', message: '' };
+      }
+    } else {
+      if (!exists(this._touched)) {
+        return { name: 'SquareNotFound', message: 'Square does not exist.' }; 
+      } else if (!exists(this._touched.piece)) {
+        return { name: 'EmptySquare', message: 'Square is empty.' }; 
+      } else if (!this._touched.occupiedBy(this.playerNumber)) {
+        return { name: 'PieceOwnershipMismatch', message: 'Piece is owned by opponent.' }; 
+      } else if (!this._touched.piece.canMoveFrom(this._touched, this.match.gameState)) {
+        return { name: 'MoveImpossible', message: 'Piece cannot move.' };
+      } else {
+        return { name: 'MovePossible', message: '' };
+      }
+    }
   }
 
-  get _from() {
-    return this.gameState.findSquare(this.fromId);
+  get _putsKingInCheck() {
+    let dup = this.match.gameState.dup;
+    dup.move(this._selectedSquare.id, this.touchedId);
+    return dup.inCheck(this.match.gameState.currentPlayerNumber);
   }
 
-  get _to() {
-    return this.gameState.findSquare(this.toId);
+  get _pawnMovesToLastRank() {
+    return this.match.gameState.pawnMoveToLastRank(this._selectedSquare, this._touched);
+  }
+
+  get _touched() {
+    return this.match.gameState.findSquare(this.touchedId);
+  }
+
+  get _selectedSquare() {
+    return this.match.gameState.selectedSquare;
   }
 }
 

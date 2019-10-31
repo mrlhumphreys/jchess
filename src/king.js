@@ -1,3 +1,4 @@
+import { compact } from './utils'
 import Piece from './piece'
 import SquareSet from './square_set'
 import Vector from './vector'
@@ -19,12 +20,12 @@ class King extends Piece {
     let rooks = gameState.squares.occupiedByPiece('rook').occupiedByPlayer(this.playerNumber).unmoved
 
     if (this.hasNotMoved && rooks.some()) {
-      let _squares = rooks.map((s) => {
+      let _squares = compact(rooks.map((s) => {
         let vector = new Vector(square, s);
         let x = square.x + (2 * vector.directionX);
         let y = square.y;
         return gameState.squares.findSquareByXandY(x, y);
-      });
+      }));
 
       let potential = new SquareSet({squares: _squares});
 

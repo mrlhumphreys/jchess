@@ -1,4 +1,4 @@
-import exists from './exists'
+import { exists } from './utils'
 import Square from './square'
 import Vector from './vector'
 

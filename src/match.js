@@ -1,5 +1,5 @@
 import { buildPlayers, buildLastAction, buildNotification, winner, asJson } from '@mrlhumphreys/jboardgame'
-import exists from './exists'
+import { exists } from './utils'
 import GameState from './game_state'
 import Move from './move'
 
@@ -31,59 +31,37 @@ class Match {
 
   touchSquare(squareId, playerNumber) {
     let selectedSquare = this.gameState.selectedSquare;
-    let touchedSquare = this.gameState.findSquare(squareId);
 
     this._clearLastAction();
 
-    if (exists(this.winner)) {
-      this._notify('Game is over.'); 
-    } else if (!this.gameState.playersTurn(playerNumber)) {
-      this._notify('It is not your turn.');
-    } else {
-      if (exists(selectedSquare)) {
-        let move = new Move({
-          fromId: selectedSquare.id,
-          toId: touchedSquare.id,
-          gameState: this.gameState
-        });
+    let move = new Move({
+      touchedId: squareId,
+      playerNumber: playerNumber,
+      match: this 
+    });
 
-        if (move.valid()) {
-          let dup = this.gameState.dup;
-          dup.move(selectedSquare.id, touchedSquare.id);
+    let result = move.result;
 
-          if (dup.inCheck(this.gameState.currentPlayerNumber)) {
-            this._notify('Move puts king in check.');
-          } else {
-            if (this._pawnMoveToLastRank(selectedSquare, touchedSquare)) {
-              this.gameState.move(selectedSquare.id, touchedSquare.id);
-              this._setupPromotion(selectedSquare.id, touchedSquare.id);
-            } else {
-              this.gameState.deselectPiece(selectedSquare.id);
-              this.gameState.move(selectedSquare.id, touchedSquare.id);
-              this.gameState.passTurn();
-              this._addMoveToLastAction(selectedSquare.id, touchedSquare.id);
-            }
-          }
-        } else {
-          this._notify('Invalid move.');
-          this.gameState.deselectPiece(selectedSquare.id);
-        }
-      } else {
-        let move = new Move({
-          fromId: touchedSquare.id,
-          gameState: this.gameState
-        });
-
-        if (touchedSquare.unoccupied) {
-          this._notify('The square is empty.');
-        } else if (!touchedSquare.occupiedBy(playerNumber)) {
-          this._notify('That piece is not yours.');
-        } else if (move.possible()) {
-          this.gameState.selectPiece(touchedSquare.id);
-        } else {
-          this._notify('Piece cannot move.');
-        }
-      }
+    switch (result.name) {
+      case 'MoveValid':
+        this.gameState.deselectPiece(selectedSquare.id);
+        this.gameState.move(selectedSquare.id, squareId);
+        this.gameState.passTurn();
+        this._addMoveToLastAction(selectedSquare.id, squareId);
+        break;
+      case 'PawnMovesToLastRank':
+        this.gameState.move(selectedSquare.id, squareId);
+        this._setupPromotion(selectedSquare.id, squareId);
+        break;
+      case 'MovePossible':
+        this.gameState.selectPiece(squareId);
+        break;
+      case 'MoveInvalid':
+        this._notify(result.message);
+        this.gameState.deselectPiece(selectedSquare.id);
+        break;
+      default:
+        this._notify(result.message);
     }
   }
 

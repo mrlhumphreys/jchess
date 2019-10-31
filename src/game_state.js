@@ -1,4 +1,4 @@
-import exists from './exists'
+import { exists } from './utils'
 import SquareSet from './square_set'
 import Vector from './vector'
 

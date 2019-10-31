@@ -1,4 +1,4 @@
-import exists from './exists'
+import { exists } from './utils'
 import Pawn from './pawn'
 import Rook from './rook'
 import Knight from './knight'

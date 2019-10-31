@@ -6,91 +6,130 @@ import GameState from '../src/game_state'
 import fixtures from './fixtures'
 
 describe('Move', () => {
-  describe('possible', () => {
-    it('must return true if the piece can move from the square', () => {
-      let rook = new Rook({id: 1, player_number: 1, type: 'rook', selected: true});
-      let origin = new Square({id: 'a8', x: 0, y: 0, piece: rook});
-      let destination = new Square({id: 'b8', x: 1, y: 0, piece: null});
-      let squares = new SquareSet({squares: [origin, destination]});
-      let gameState = new GameState({current_player_number: 1, squares: squares});
+  describe('result', () => {
+    describe('when there is a winner', () => {
+      it('must return a game over result', () => {
+        let match = fixtures('winnerMatch');
+        let move = new Move({touchedId: 'a1', playerNumber: 1, match: match});
+        let result = move.result;
 
-      let move = new Move({fromId: origin.id, gameState: gameState});
-      expect(move.possible()).toBe(true);
-      expect(move.error).toBe(null);
+        expect(result.name).toEqual('GameOver');
+        expect(result.message).toEqual('Game is over.');
+      });
     });
 
-    it('must return false if the piece cannot move from the square', () => {
-      let rook = new Rook({id: 1, player_number: 1, type: 'rook', selected: true});
-      let blocker = new Rook({id: 2, player_number: 1, type: 'rook', selected: false});
-      let origin = new Square({id: 'a8', x: 0, y: 0, piece: rook});
-      let destination = new Square({id: 'b8', x: 1, y: 0, piece: blocker});
-      let squares = new SquareSet({squares: [origin, destination]});
-      let gameState = new GameState({current_player_number: 1, squares: squares});
+    describe('when it is not the players turn', () => {
+      it('must return a not players turn result', () => {
+        let match = fixtures('match');
+        let move = new Move({touchedId: 'd7', playerNumber: 2, match: match});
+        let result = move.result;
 
-      let move = new Move({fromId: origin.id, gameState: gameState});
-      expect(move.possible()).toBe(false);
-      expect(move.error.name).toBe('CannotMoveError');
+        expect(result.name).toEqual('NotPlayersTurn');
+        expect(result.message).toEqual('It is not your turn.');
+      });
     });
 
-    it('must return false if the square is not specified', () => {
-      let gameState = fixtures('gameState');
-      let move = new Move({fromId: null, gameState: gameState});
+    describe('when piece is selected', () => {
+      describe('when piece puts king in check', () => {
+        it('returns a move puts king in check result', () => {
+          let match = fixtures('moveToCheckMatch');
+          let move = new Move({touchedId: 'a1', playerNumber: 1, match: match});
+          let result = move.result;
 
-      expect(move.possible()).toBe(false);
-      expect(move.error.name).toEqual('NoSquareError');
+          expect(result.name).toEqual('KingInCheck');
+          expect(result.message).toEqual('Move puts king in check.');
+        });
+      });
+
+      describe('when piece cannot move', () => {
+        it('returns a move invalid result', () => {
+          let match = fixtures('selectedMatch');
+          let move = new Move({ touchedId: 'e5', playerNumber: 1, match: match });
+          let result = move.result;
+
+          expect(result.name).toEqual('MoveInvalid');
+          expect(result.message).toEqual('Piece cannot move.');
+        });
+      });
+
+      describe('when piece can move and pawn moves to last rank', () => {
+        it('returns a promotion result', () => {
+          let match = fixtures('toPromoteMatch');
+          let move = new Move({ touchedId: 'a8', playerNumber: 1, match: match});
+          let result = move.result;
+
+          expect(result.name).toEqual('PawnMovesToLastRank');
+          expect(result.message).toEqual('Pawn can promote.');
+        });
+      });
+
+      describe('when piece can move', () => {
+        it('returns a move valid result', () => {
+          let match = fixtures('selectedMatch');
+          let move = new Move({ touchedId: 'e4', playerNumber: 1, match: match});
+          let result = move.result;
+
+          expect(result.name).toEqual('MoveValid');
+          expect(result.message).toEqual('');
+        });
+      });
     });
 
-    it('must return false if the square is empty', () => {
-      let gameState = fixtures('gameState');
-      let square = new Square({id: 'a6', x: 0, y: 2, piece: null});
-      let move = new Move({fromId: square.id, gameState: gameState});
+    describe('when piece is not selected', () => {
+      describe('from does not exist', () => {
+        it('returns a square not found error', () => {
+          let match = fixtures('match');
+          let move = new Move({ touchedId: null, playerNumber: 1, match: match });
+          let result = move.result;
 
-      expect(move.possible()).toBe(false);
-      expect(move.error.name).toEqual('NoPieceError');
-    });
-  });
+          expect(result.name).toEqual('SquareNotFound');
+          expect(result.message).toEqual('Square does not exist.');
+        });
+      });
 
-  describe('valid', () => { 
-    it('must return true if the piece can move to the square', () => {
-      let rook = new Rook({id: 1, player_number: 1, type: 'rook', selected: true});
-      let origin = new Square({id: 'a8', x: 0, y: 0, piece: rook});
-      let destination = new Square({id: 'b8', x: 1, y: 0, piece: null});
-      let squares = new SquareSet({squares: [origin, destination]});
-      let gameState = new GameState({current_player_number: 1, squares: squares});
+      describe('from is unoccupied', () => {
+        it('returns a empty square result', () => {
+          let match = fixtures('match');
+          let move = new Move({ touchedId: 'a6', playerNumber: 1, match: match });
+          let result = move.result;
 
-      let move = new Move({fromId: origin.id, toId: destination.id, gameState: gameState});
-      expect(move.valid()).toBe(true);
-      expect(move.error).toBe(null);
-    });
+          expect(result.name).toEqual('EmptySquare');
+          expect(result.message).toEqual('Square is empty.');
+        });
+      });
 
-    it('must return false if the piece cannot move to the square', () => {
-      let rook = new Rook({id: 1, player_number: 1, type: 'rook', selected: true});
-      let blocker = new Rook({id: 2, player_number: 1, type: 'rook', selected: false});
-      let origin = new Square({id: 'a8', x: 0, y: 0, piece: rook});
-      let destination = new Square({id: 'b8', x: 1, y: 0, piece: blocker});
-      let squares = new SquareSet({squares: [origin, destination]});
-      let gameState = new GameState({current_player_number: 1, squares: squares});
+      describe('from is occupied by opponent', () => {
+        it('returns a piece ownership mismatch result', () => {
+          let match = fixtures('match');
+          let move = new Move({ touchedId: 'e7', playerNumber: 1, match: match });
+          let result = move.result;
 
-      let move = new Move({fromId: origin.id, toId: destination.id, gameState: gameState});
-      expect(move.valid()).toBe(false);
-      expect(move.error.name).toEqual('CannotMoveError');
-    });
+          expect(result.name).toEqual('PieceOwnershipMismatch');
+          expect(result.message).toEqual('Piece is owned by opponent.');
+        });
+      });
 
-    it('must return false if the square is not specified', () => {
-      let gameState = fixtures('gameState');
-      let move = new Move({fromId: null, gameState: gameState});
+      describe('piece cannot move', () => {
+        it('returns a move impossible result', () => {
+          let match = fixtures('match');
+          let move = new Move({ touchedId: 'a1', playerNumber: 1, match: match });
+          let result = move.result;
 
-      expect(move.valid()).toBe(false);
-      expect(move.error.name).toEqual('NoSquareError');
-    });
+          expect(result.name).toEqual('MoveImpossible');
+          expect(result.message).toEqual('Piece cannot move.');
+        });
+      });
 
-    it('must return false if the square is empty', () => {
-      let gameState = fixtures('gameState');
-      let square = new Square({id: 'a6', x: 0, y: 2, piece: null});
-      let move = new Move({fromId: square.id, gameState: gameState});
+      describe('piece can move', () => {
+        it('returns a move possible result', () => {
+          let match = fixtures('match');
+          let move = new Move({touchedId: 'd2', playerNumber: 1, match: match});
+          let result = move.result;
 
-      expect(move.valid()).toBe(false);
-      expect(move.error.name).toEqual('NoPieceError');
+          expect(result.name).toEqual('MovePossible');
+          expect(result.message).toEqual('');
+        });
+      });
     });
   });
 });

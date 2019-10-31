@@ -1,4 +1,4 @@
-import exists from './exists'
+import { exists } from './utils'
 
 const mockSquareSet = {
   some: function() { return false; },
