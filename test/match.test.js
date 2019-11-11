@@ -135,15 +135,6 @@ describe('match', () => {
     });
   });
 
-  describe('pawnMoveToLastRank', () => {
-    it('must return pawn move to last rank from game state', () => {
-      let match = fixtures('toPromoteMatch');
-      let from = match.gameState.findSquare('a7');
-      let to = match.gameState.findSquare('a8');
-      expect(match._pawnMoveToLastRank(from, to)).toBe(true); 
-    });
-  });
-
   describe('touchSquare', () => {
     describe('with a last action', () => {
       it('clears last action', () => {

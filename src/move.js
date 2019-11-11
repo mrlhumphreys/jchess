@@ -17,27 +17,35 @@ class Move {
     }
 
     if (exists(this._selectedSquare)) {
-      if (this._putsKingInCheck) {
-        return { name: 'KingInCheck', message: 'Move puts king in check.' };
-      } else if (this._pawnMovesToLastRank) {
-        return { name: 'PawnMovesToLastRank', message: 'Pawn can promote.' };
-      } else if (!this._selectedSquare.piece.canMove(this._selectedSquare, this._touched, this.match.gameState)) {
-        return { name: 'MoveInvalid', message: 'Piece cannot move.' };
-      } else {
-        return { name: 'MoveValid', message: '' };
-      }
+      return this._selectedResult;
     } else {
-      if (!exists(this._touched)) {
-        return { name: 'SquareNotFound', message: 'Square does not exist.' }; 
-      } else if (!exists(this._touched.piece)) {
-        return { name: 'EmptySquare', message: 'Square is empty.' }; 
-      } else if (!this._touched.occupiedBy(this.playerNumber)) {
-        return { name: 'PieceOwnershipMismatch', message: 'Piece is owned by opponent.' }; 
-      } else if (!this._touched.piece.canMoveFrom(this._touched, this.match.gameState)) {
-        return { name: 'MoveImpossible', message: 'Piece cannot move.' };
-      } else {
-        return { name: 'MovePossible', message: '' };
-      }
+      return this._unselectedResult;
+    }
+  }
+
+  get _selectedResult() {
+    if (this._putsKingInCheck) {
+      return { name: 'KingInCheck', message: 'Move puts king in check.' };
+    } else if (this._pawnMovesToLastRank) {
+      return { name: 'PawnMovesToLastRank', message: 'Pawn can promote.' };
+    } else if (!this._selectedSquare.piece.canMove(this._selectedSquare, this._touched, this.match.gameState)) {
+      return { name: 'MoveInvalid', message: 'Piece cannot move.' };
+    } else {
+      return { name: 'MoveValid', message: '' };
+    }
+  }
+
+  get _unselectedResult() {
+    if (!exists(this._touched)) {
+      return { name: 'SquareNotFound', message: 'Square does not exist.' }; 
+    } else if (!exists(this._touched.piece)) {
+      return { name: 'EmptySquare', message: 'Square is empty.' }; 
+    } else if (!this._touched.occupiedBy(this.playerNumber)) {
+      return { name: 'PieceOwnershipMismatch', message: 'Piece is owned by opponent.' }; 
+    } else if (!this._touched.piece.canMoveFrom(this._touched, this.match.gameState)) {
+      return { name: 'MoveImpossible', message: 'Piece cannot move.' };
+    } else {
+      return { name: 'MovePossible', message: '' };
     }
   }
 

@@ -2,6 +2,7 @@ import { buildPlayers, buildLastAction, buildNotification, winner, asJson } from
 import { exists } from './utils'
 import GameState from './game_state'
 import Move from './move'
+import Promote from './promote'
 
 class Match {
   constructor(args) { 
@@ -66,17 +67,25 @@ class Match {
   }
 
   touchPromotionPiece(pieceType, playerNumber) {
-    this.gameState.promote(this.currentMove.toId, pieceType);
-    this._addMoveToLastAction(this.currentMove.fromId, this.currentMove.toId, pieceType);
-    this._teardownPromotion();
+    let promote = new Promote({
+      pieceType: pieceType,
+      playerNumber: playerNumber,
+      match: this
+    });
+
+    let result = promote.result;
+
+    switch (result.name) {
+      case 'ValidPromotion':
+        this.gameState.promote(this.currentMove.toId, pieceType);
+        this._addMoveToLastAction(this.currentMove.fromId, this.currentMove.toId, pieceType);
+        this._teardownPromotion();
+        break;
+      default:
+        this._notify(result.message);
+    }
   }
 
-  // private getters
-  
-  _pawnMoveToLastRank(from, to) { 
-    return this.gameState.pawnMoveToLastRank(from, to);
-  }
-  
   // private setters
 
   _setupPromotion(fromId, toId) {
