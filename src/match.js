@@ -61,6 +61,10 @@ class Match {
         this._notify(result.message);
         this.gameState.deselectPiece(selectedSquare.id);
         break;
+      case 'KingInCheck':
+        this._notify(result.message);
+        this.gameState.deselectPiece(selectedSquare.id);
+        break;
       default:
         this._notify(result.message);
     }

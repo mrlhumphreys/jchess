@@ -167,6 +167,7 @@ describe('match', () => {
             let match = fixtures('moveToCheckMatch');
             match.touchSquare('a1', 1);
             expect(match.notification).toEqual('Move puts king in check.');
+            expect(match.gameState.selectedSquare).toBe(undefined);
           });
         });
 
