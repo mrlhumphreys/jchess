@@ -393,7 +393,7 @@ describe("GameState", () => {
 
       let dup = gameState.dup;
 
-      expect(dup.squares.first.piece.id).toEqual(pawn.id);
+      expect(dup.squares.first().piece.id).toEqual(pawn.id);
     });
   });
 
@@ -539,7 +539,7 @@ describe("GameState", () => {
       let gameState = fixtures('gameState');
       gameState.promote('j9', 'queen');
       let queenSquares = gameState.squares.filter(function(s) { return s.piece !== null && s.piece.constructor == Queen });
-      expect(queenSquares.length).toEqual(2);
+      expect(queenSquares.length()).toEqual(2);
     });
   });
 

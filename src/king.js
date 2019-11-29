@@ -9,7 +9,7 @@ class King extends Piece {
     let castle = this.castle(square, gameState);
     let checked = this.checkedSquares(square, gameState);
     let shared = this.sharedKingSquares(gameState);
-    return base.concat(castle).diff(checked).diff(shared);
+    return base.concat(castle).difference(checked).difference(shared);
   }
 
   baseDestinations(square, gameState) { 
@@ -24,12 +24,12 @@ class King extends Piece {
         let vector = new Vector(square, s);
         let x = square.x + (2 * vector.directionX);
         let y = square.y;
-        return gameState.squares.findSquareByXandY(x, y);
+        return gameState.squares.findByCoordinate(x, y);
       }));
 
       let potential = new SquareSet({squares: _squares});
 
-      return potential.unoccupied.unblocked(square, gameState.squares);
+      return potential.unoccupied().unblocked(square, gameState.squares);
     } else {
       return new SquareSet({squares: []});
     }

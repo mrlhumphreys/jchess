@@ -40,7 +40,7 @@ class Move {
       return { name: 'SquareNotFound', message: 'Square does not exist.' }; 
     } else if (!exists(this._touched.piece)) {
       return { name: 'EmptySquare', message: 'Square is empty.' }; 
-    } else if (!this._touched.occupiedBy(this.playerNumber)) {
+    } else if (!this._touched.occupiedByPlayer(this.playerNumber)) {
       return { name: 'PieceOwnershipMismatch', message: 'Piece is owned by opponent.' }; 
     } else if (!this._touched.piece.canMoveFrom(this._touched, this.match.gameState)) {
       return { name: 'MoveImpossible', message: 'Piece cannot move.' };

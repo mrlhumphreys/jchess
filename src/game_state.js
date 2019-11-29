@@ -12,17 +12,17 @@ class GameState {
   get asJson() {
     return {
       current_player_number: this.currentPlayerNumber,
-      squares: this.squares.asJson.squares,
+      squares: this.squares.asJson().squares,
       last_double_step_pawn_id: this.lastDoubleStepPawnId
     };
   }
 
   get selectedSquare() {
-    return this.squares.selectedSquare;
+    return this.squares.selected();
   }
 
   findSquare(id) { 
-    return this.squares.findSquare(id);
+    return this.squares.findById(id);
   }
 
   playersTurn(playerNumber) { 
@@ -35,7 +35,7 @@ class GameState {
     } else {
       let enPassant = exists(from) && exists(from.piece) && from.piece.type === 'pawn' && from.piece.enPassantSquare(from, this);
       if (enPassant) {
-        return this.squares.findSquareByPieceId(this.lastDoubleStepPawnId);
+        return this.squares.findByPieceId(this.lastDoubleStepPawnId);
       } else {
         return null;
       }
@@ -53,11 +53,11 @@ class GameState {
 
       let rookFromX = vector.directionX > 0 ? 7 : 0;
       let rookFromY = from.y;
-      let rookFrom = this.squares.findSquareByXandY(rookFromX, rookFromY);
+      let rookFrom = this.squares.findByCoordinate(rookFromX, rookFromY);
 
       let rookToX = vector.directionX > 0 ? (from.x + 1) : (from.x - 1);
       let rookToY = from.y;
-      let rookTo = this.squares.findSquareByXandY(rookToX, rookToY);
+      let rookTo = this.squares.findByCoordinate(rookToX, rookToY);
 
       return { fromId: rookFrom.id, toId: rookTo.id };
     } else {
@@ -135,14 +135,14 @@ class GameState {
   }
 
   move(fromId, toId) { 
-    let from = this.squares.findSquare(fromId);
-    let to = this.squares.findSquare(toId);
+    let from = this.squares.findById(fromId);
+    let to = this.squares.findById(toId);
 
     let rookCastleMove = this.rookCastleMove(from, to);
 
     if (exists(rookCastleMove)) {
-      let rookFrom = this.squares.findSquare(rookCastleMove.fromId);
-      let rookTo = this.squares.findSquare(rookCastleMove.toId);
+      let rookFrom = this.squares.findById(rookCastleMove.fromId);
+      let rookTo = this.squares.findById(rookCastleMove.toId);
       this.performMove(rookFrom, rookTo, null);
     }
     

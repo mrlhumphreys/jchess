@@ -62,25 +62,25 @@ describe('Square', () => {
     });
   });
 
-  describe('occupiedBy', () => {
+  describe('occupiedByPlayer', () => {
     it('must return true if the piece is owned by the player', () => {
       let piece = new Rook({id: 1, player_number: 2, type: 'rook'});
       let square = new Square({id: 'a8', x: 0, y: 0, piece: piece});
 
-      expect(square.occupiedBy(2)).toBe(true);
+      expect(square.occupiedByPlayer(2)).toBe(true);
     });
 
     it('must return false if the piece is not owned by the player', () => {
       let piece = new Rook({id: 1, player_number: 2, type: 'rook'});
       let square = new Square({id: 'a8', x: 0, y: 0, piece: piece});
 
-      expect(square.occupiedBy(1)).toBe(false);
+      expect(square.occupiedByPlayer(1)).toBe(false);
     });
 
     it('must return false if there is no piece', () => {
       let square = new Square({id: 'a8', x: 0, y: 0, piece: null});
 
-      expect(square.occupiedBy(2)).toBe(false);
+      expect(square.occupiedByPlayer(2)).toBe(false);
     });
   });
 

@@ -1,4 +1,4 @@
-import { buildPlayers, buildLastAction, buildNotification, winner, asJson } from '@mrlhumphreys/jboardgame'
+import { buildPlayers, buildLastAction, buildNotification, winner, matchAsJson } from '@mrlhumphreys/jboardgame'
 import { exists } from './utils'
 import GameState from './game_state'
 import Move from './move'
@@ -16,7 +16,7 @@ class Match {
   }
 
   get asJson() {
-    let baseJson = asJson(this);
+    let baseJson = matchAsJson(this);
     let extraJson = {
       current_move: this.currentMove,
       promotion: this.promotion

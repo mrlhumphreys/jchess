@@ -35,7 +35,7 @@ class Square {
     return !exists(this.piece); 
   }
 
-  occupiedBy(playerNumber) { 
+  occupiedByPlayer(playerNumber) { 
     return this.occupied && this.piece.playerNumber === playerNumber;
   }
 
