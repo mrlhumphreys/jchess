@@ -6,11 +6,21 @@ import Bishop from './bishop'
 import Queen from './queen'
 import King from './king'
 
+/** A piece generator */
 class PieceFactory {
+  /**
+   * Create a Piece Factory
+   * @param {Object} args - The properties of the piece.
+   * @param {string} args.type - The type of the piece.
+   */
   constructor(args) {
     this.args = args;
   } 
 
+  /**
+   * Build a piece based on the args type.
+   * @return {(Piece|null)}
+   */
   get build() {
     if (exists(this.args)) {
       if (this.args.constructorName === 'Piece') {

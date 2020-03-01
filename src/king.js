@@ -3,7 +3,14 @@ import Piece from './piece'
 import SquareSet from './square_set'
 import Vector from './vector'
 
+/** A king piece */
 class King extends Piece {
+  /**
+   * The destinations that a king can move to from a square given the board.
+   * @param {Square} square - The square the king is on.
+   * @param {GameState} gameState - The state of the game.
+   * @return {SquareSet} 
+   */
   destinations(square, gameState) { 
     let base = this.baseDestinations(square, gameState);
     let castle = this.castle(square, gameState);
@@ -12,10 +19,22 @@ class King extends Piece {
     return base.concat(castle).difference(checked).difference(shared);
   }
 
+  /**
+   * The destinations based on how a king moves.
+   * @param {Square} square - The square the king is on.
+   * @param {GameState} gameState - The state of the game.
+   * @return {SquareSet} 
+   */
   baseDestinations(square, gameState) { 
     return gameState.squares.atRange(square, 1).unoccupiedOrOccupiedByOpponent(this.playerNumber);
   }
 
+  /**
+   * The destinations of a king when castling.
+   * @param {Square} square - The square the king is on.
+   * @param {GameState} gameState - The state of the game.
+   * @return {SquareSet} 
+   */
   castle(square, gameState) { 
     let rooks = gameState.squares.occupiedByPiece('rook').occupiedByPlayer(this.playerNumber).unmoved
 
@@ -35,10 +54,21 @@ class King extends Piece {
     }
   }
 
+  /**
+   * The squares that are threatened and would lead to check.
+   * @param {Square} square - The square the king is on.
+   * @param {GameState} gameState - The state of the game.
+   * @return {SquareSet} 
+   */
   checkedSquares(square, gameState) { 
     return gameState.squares.threatenedBy(this.opponent, gameState);
   }
 
+  /**
+   * Shared destinations with the other king that would lead to checkmate.
+   * @param {GameState} gameState - The state of the game.
+   * @return {SquareSet} 
+   */
   sharedKingSquares(gameState) { 
     let all = gameState.squares.occupiedByPiece('king').map(function(s) {
       return s.piece.baseDestinations(s, gameState); 

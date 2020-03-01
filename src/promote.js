@@ -1,12 +1,23 @@
 import { exists } from './utils'
 
+/** A promote action */
 class Promote {
+  /** 
+   * Create a promote action
+   * @param {Object} args - The properties of the promote action.
+   * @param {string} args.pieceType - The type the piece is being promoted to.
+   * @param {Match} args.match - The match being played.
+   */
   constructor(args) {
     this.pieceType = args.pieceType;
     this.playerNumber = args.playerNumber;
     this.match = args.match
   }
 
+  /**
+   * The result of the promotion.
+   * @return {Object} - A result with name and message.
+   */
   get result() {
     if (exists(this.match.winner)) {
       return { name: 'GameOver', message: 'Game is over.' };
