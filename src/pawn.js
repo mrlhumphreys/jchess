@@ -42,8 +42,8 @@ class Pawn extends Piece {
    * @return {(Square|null)}
    */
   enPassantSquare(square, gameState) { 
-    if (square.rankNumber(this.playerNumber) === 5 && exists(gameState.lastDoubleStepPawnId)) {
-      let doubleStep = gameState.squares.findByPieceId(gameState.lastDoubleStepPawnId);
+    let doubleStep = gameState.squares.findByPieceId(gameState.lastDoubleStepPawnId);
+    if (square.rankNumber(this.playerNumber) === 5 && exists(doubleStep)) {
       let vector = new Vector(square, doubleStep);
       if (vector.magnitude === 1) {
         let x = doubleStep.x;
