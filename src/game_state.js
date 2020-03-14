@@ -250,6 +250,9 @@ class GameState {
     let to = this.squares.findById(toId);
 
     if (exists(from) && exists(to)) {
+      if (from.piece.type === 'pawn' && (new Vector(from, to)).magnitude === 2) {
+        this.lastDoubleStepPawnId = from.piece.id;
+      }
       let rookCastleMove = this.rookCastleMove(from, to);
 
       if (exists(rookCastleMove)) {

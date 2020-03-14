@@ -437,6 +437,22 @@ describe("GameState", () => {
         expect(gameState.findSquare(rookDestination.id).piece.id).toEqual(rook.id);
       });
     });
+
+    describe('pawn moving two spaces', () => {
+      it('must set the double step pawn id', () => {
+        let pawn = new Pawn({id: 20, player_number: 1, type: 'pawn', selected: false});
+
+        let pawnOrigin = new Square({id: 'd2', x: 3, y: 6, piece: pawn});
+        let pawnDestination = new Square({id: 'd4', x: 3, y: 4, piece: null});
+
+        let squares = new SquareSet({squares: [pawnOrigin, pawnDestination]});
+        let gameState = new GameState({current_player_number: 1, squares: squares});
+
+        gameState.move(pawnOrigin.id, pawnDestination.id);
+
+        expect(gameState.lastDoubleStepPawnId).toEqual(pawn.id);
+      });
+    });
   });
 
   describe('performMove', () => {
