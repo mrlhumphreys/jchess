@@ -178,10 +178,10 @@ describe("GameState", () => {
           let piece = new Pawn({id: 18, player_number: 1, type: 'pawn', selected: true});
           let enemy = new Pawn({id: 9, player_number: 2, type: 'pawn', selected: false});
           let origin = new Square({id: 'b5', x: 1, y: 3, piece: piece});
-          let destination = new Square({id: 'a6', x: 0, y: 2, piece: null});
+          let destination = new Square({id: 'b6', x: 1, y: 2, piece: null});
           let enPassant = new Square({id: 'a5', x: 0, y: 3, piece: enemy});
           let squares = new SquareSet({squares: [origin, destination, enPassant]});
-          let gameState = new GameState({current_player_number: 1, squares: squares, last_double_step_pawn_id: null});
+          let gameState = new GameState({current_player_number: 1, squares: squares, last_double_step_pawn_id: enemy.id});
 
           expect(gameState.capturedSquare(origin, destination)).toBe(null);
         });

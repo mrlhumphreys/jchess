@@ -73,8 +73,15 @@ class GameState {
     if (to.occupied) {
       return to;
     } else {
-      let enPassant = exists(from) && exists(from.piece) && from.piece.type === 'pawn' && from.piece.enPassantSquare(from, this);
-      if (enPassant) {
+      let enPassantSquare;
+
+      if (exists(from) && exists(from.piece) && from.piece.type === 'pawn') {
+        enPassantSquare = from.piece.enPassantSquare(from, this);
+      } else {
+        enPassantSquare = null;
+      }
+
+      if (exists(enPassantSquare) && enPassantSquare.x === to.x) {
         return this.squares.findByPieceId(this.lastDoubleStepPawnId);
       } else {
         return null;
