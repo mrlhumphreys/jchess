@@ -1,11 +1,13 @@
 import { exists } from './utils'
 import {
   squaresAsJson,
+  squaresDup,
   some,
   none,
   every,
   map,
   filter,
+  push,
   concat,
   difference,
   intersection,
@@ -29,6 +31,9 @@ import {
   unoccupied,
   occupiedByPlayer,
   occupiedByOpponentOf,
+  unoccupiedOrOccupiedByOpponent,
+  occupiedByPiece,
+  excludingPiece,
   unblocked,
   between
 } from '@mrlhumphreys/jboardgame';
@@ -56,6 +61,9 @@ class SquareSet {
     this.asJson = squaresAsJson; 
 
     /** @member {Function} */
+    this.dup = squaresDup;
+
+    /** @member {Function} */
     this.some = some;
 
     /** @member {Function} */
@@ -69,6 +77,9 @@ class SquareSet {
 
     /** @member {Function} */
     this.filter = filter;
+
+    /** @member {Function} */
+    this.push = push;
 
     /** @member {Function} */
     this.concat = concat;
@@ -138,38 +149,21 @@ class SquareSet {
 
     /** @member {Function} */
     this.occupiedByOpponentOf = occupiedByOpponentOf;
+
+    /** @member {Function} */
+    this.unoccupiedOrOccupiedByOpponent = unoccupiedOrOccupiedByOpponent;
+
+    /** @member {Function} */
+    this.occupiedByPiece = occupiedByPiece;
+
+    /** @member {Function} */
+    this.excludingPiece = excludingPiece;
     
     /** @member {Function} */
     this.unblocked = unblocked;
 
     /** @member {Function} */
     this.between = between;
-  }
-
-  /**
-   * Duplicate the square set.
-   * @return {SquareSet}
-   */
-  get dup() {
-    let _squares = this.squares.map(function(s) { return s.dup; });
-    return new SquareSet({squares: _squares});
-  }
-
-  // enumerable operations
-
-  /**
-   * Push a square onto the square set.
-   * Returns the square set.
-   * @param {(Square|null)} square - The square being pushed.
-   * @return {SquareSet}
-   */
-  push(square) { 
-    if (exists(square)) {
-      this.squares.push(square);
-      return new SquareSet({squares: this.squares});
-    } else {
-      return this;
-    }
   }
 
   // finders
@@ -184,39 +178,6 @@ class SquareSet {
   }
 
   // filters
-
-  /**
-   * Filter all squares unoccupied or occupied by opponent.
-   * @param {number} playerNumber - The number of the player.
-   * @return {SquareSet}
-   */
-  unoccupiedOrOccupiedByOpponent(playerNumber) { 
-    return this.filter(function(s) {
-      return s.unoccupiedOrOccupiedByOpponentOf(playerNumber);
-    });
-  }
-
-  /**
-   * Filter all squares occupied by piece type.
-   * @param {string} pieceType - The type of the piece.
-   * @return {SquareSet}
-   */
-  occupiedByPiece(pieceType) { 
-    return this.filter(function(s) {
-      return s.occupiedByPiece(pieceType);
-    });
-  }
-
-  /**
-   * Filter all squares not occupied by piece type.
-   * @param {string} pieceType - The type of the piece.
-   * @return {SquareSet}
-   */
-  excludingPiece(pieceType) { 
-    return this.filter(function(s) {
-      return s.notOccupiedByPiece(pieceType);
-    });
-  }
 
   /**
    * Filter all squares with pieces that have not moved.

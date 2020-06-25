@@ -2,6 +2,23 @@ import { exists } from './utils'
 import Point from './point'
 import PieceFactory from './piece_factory'
 
+import {
+  squareAsJson,
+  squareDup,
+  squareOccupied,
+  squareUnoccupied,
+  squareOccupiedByPlayer,
+  squareOccupiedByOpponentOf,
+  squareUnoccupiedOrOccupiedByOpponentOf,
+  squareOccupiedByPiece,
+  squareNotOccupiedByPiece,
+  point,
+  select,
+  deselect,
+  addPiece,
+  removePiece
+} from '@mrlhumphreys/jboardgame';
+
 /** A square on a grid */
 class Square {
   /** 
@@ -32,89 +49,21 @@ class Square {
       /** @member {(Piece|null)} */
       this.piece = pieceFactory.build;
     }
-  }
 
-  /**
-   * The square serialized as an object.
-   * @return {Object}
-   */
-  get asJson() {
-    let pieceJson = exists(this.piece) ? this.piece.asJson : null;
-    return {
-      id: this.id,
-      x: this.x,
-      y: this.y,
-      piece: pieceJson 
-    };
-  }
-
-  /**
-   * Is the square occupied?
-   * @return {boolean}
-   */
-  get occupied() {
-    return exists(this.piece); 
-  }
-
-  /**
-   * Is the square unoccupied?
-   * @return {boolean}
-   */
-  get unoccupied() {
-    return !exists(this.piece); 
-  }
-
-  /**
-   * Is the square occupied by player?
-   * @param {number} playerNumber - The number of the player.
-   * @return {boolean}
-   */
-  occupiedByPlayer(playerNumber) { 
-    return this.occupied && this.piece.playerNumber === playerNumber;
-  }
-
-  /**
-   * Is the square occupied by the opponent?
-   * @param {number} playerNumber - The number of the player.
-   * @return {boolean}
-   */
-  occupiedByOpponentOf(playerNumber) {
-    return this.occupied && this.piece.playerNumber != playerNumber;
-  }
-
-  /**
-   * Is the square unoccupied or occupied by the opponent?
-   * @param {number} playerNumber - The number of the player.
-   * @return {boolean}
-   */
-  unoccupiedOrOccupiedByOpponentOf(playerNumber) {
-    return this.unoccupied || this.occupiedByOpponentOf(playerNumber);
-  }
-
-  /**
-   * Is the square occupied by a piece of given type?
-   * @param {string} pieceType - The type of the piece.
-   * @return {boolean}
-   */
-  occupiedByPiece(pieceType) {
-    return this.occupied && this.piece.type === pieceType;
-  }
-
-  /**
-   * Is the square not occupied by a piece of given type?
-   * @param {string} pieceType - The type of the piece.
-   * @return {boolean}
-   */
-  notOccupiedByPiece(pieceType) {
-    return this.occupied && this.piece.type != pieceType;
-  }
-
-  /**
-   * The point representation of the square's position.
-   * @return {Point}
-   */
-  get point() {
-    return new Point(this.x, this.y);
+    this.asJson = squareAsJson;
+    this.dup = squareDup;
+    this.occupied = squareOccupied;
+    this.unoccupied = squareUnoccupied;
+    this.occupiedByPlayer = squareOccupiedByPlayer;
+    this.occupiedByOpponentOf = squareOccupiedByOpponentOf;
+    this.unoccupiedOrOccupiedByOpponentOf = squareUnoccupiedOrOccupiedByOpponentOf;
+    this.occupiedByPiece = squareOccupiedByPiece;
+    this.notOccupiedByPiece = squareNotOccupiedByPiece;
+    this.point = point;
+    this.select = select;
+    this.deselect = deselect;
+    this.addPiece = addPiece;
+    this.removePiece = removePiece;
   }
 
   /**
@@ -148,79 +97,7 @@ class Square {
     return this.rankNumber(playerNumber) === 8;
   }
 
-  /**
-   * A duplicate of the square.
-   * @return {Square}
-   */
-  get dup() {
-    let _piece = null;
-
-    if (exists(this.piece)) {
-      _piece = this.piece.dup;
-    }
-
-    let args = {
-      id: this.id,
-      x: this.x,
-      y: this.y
-    };
-
-    let _square = new Square(args);
-    _square.piece = _piece;
-    return _square;
-  }
-
   // actions
-
-  /**
-   * Select the square.
-   * Returns false if no piece.
-   * @return {boolean}
-   */
-  select() {
-    if (exists(this.piece)) {
-      return this.piece.select();
-    } else {
-      return false;
-    }
-  }
-
-  /**
-   * Deselect the square.
-   * Returns false if no piece.
-   * @return {boolean}
-   */
-  deselect() {
-    if (exists(this.piece)) {
-      return this.piece.deselect();
-    } else {
-      return false;
-    }
-  }
-
-  /**
-   * Remove the piece from the square.
-   * Returns false if no piece.
-   * @return {boolean};
-   */
-  removePiece() {
-    if (exists(this.piece)) {
-      this.piece = null;
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  /** 
-   * Add piece to the square.
-   * @param {Piece} piece - The piece to be added to the square.
-   * @return {boolean};
-   */
-  addPiece(piece) {
-    this.piece = piece;
-    return true;
-  }
 
   /**
    * Promote the piece to the specified type.

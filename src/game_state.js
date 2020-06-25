@@ -70,7 +70,7 @@ class GameState {
    * @return {(Square|null)}
    */
   capturedSquare(from, to) { 
-    if (to.occupied) {
+    if (to.occupied()) {
       return to;
     } else {
       let enPassantSquare;
@@ -202,7 +202,7 @@ class GameState {
   get dup() {
     return new GameState({
       current_player_number: this.currentPlayerNumber,
-      squares: this.squares.dup,
+      squares: this.squares.dup(),
       last_double_step_pawn_id: this.lastDoubleStepPawnId
     });
   }
