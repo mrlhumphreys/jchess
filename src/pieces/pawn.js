@@ -1,6 +1,6 @@
-import { exists } from './utils'
+import { exists } from '../utils'
 import Piece from './piece'
-import Vector from './vector'
+import Vector from '../vector'
 
 /** A pawn piece. Moves forward 1 or two squares. */
 class Pawn extends Piece {

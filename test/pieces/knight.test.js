@@ -1,7 +1,7 @@
-import Knight from '../src/knight'
-import Square from '../src/square'
-import SquareSet from '../src/square_set'
-import GameState from '../src/game_state'
+import Knight from '../../src/pieces/knight'
+import Square from '../../src/square'
+import SquareSet from '../../src/square_set'
+import GameState from '../../src/game_state'
 
 describe("Knight", () => {
   describe("destinations", () => {

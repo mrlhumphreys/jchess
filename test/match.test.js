@@ -1,5 +1,5 @@
 import fixtures from './fixtures'
-import Queen from '../src/queen'
+import Queen from '../src/pieces/queen'
 
 describe('match', () => {
   describe('initialize', () => {

@@ -1,5 +1,5 @@
-import Piece from '../src/piece'
-import Rook from '../src/rook'
+import Piece from '../../src/pieces/piece'
+import Rook from '../../src/pieces/rook'
 
 describe("Piece", () => {
   describe('asJson', () => {

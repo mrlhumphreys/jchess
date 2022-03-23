@@ -1,8 +1,8 @@
-import Rook from '../src/rook'
-import Pawn from '../src/pawn'
-import Square from '../src/square'
-import SquareSet from '../src/square_set'
-import GameState from '../src/game_state'
+import Rook from '../../src/pieces/rook'
+import Pawn from '../../src/pieces/pawn'
+import Square from '../../src/square'
+import SquareSet from '../../src/square_set'
+import GameState from '../../src/game_state'
 
 describe("Rook", () => {
   describe("destinations", () => {

@@ -1,7 +1,7 @@
 import Square from '../src/square'
 import Point from '../src/point'
-import Rook from '../src/rook'
-import Queen from '../src/queen'
+import Rook from '../src/pieces/rook'
+import Queen from '../src/pieces/queen'
 
 describe('Square', () => {
   describe('startingFor', () => {

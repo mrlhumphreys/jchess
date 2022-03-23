@@ -1,5 +1,5 @@
 import Move from '../src/move'
-import Rook from '../src/rook'
+import Rook from '../src/pieces/rook'
 import Square from '../src/square'
 import SquareSet from '../src/square_set'
 import GameState from '../src/game_state'

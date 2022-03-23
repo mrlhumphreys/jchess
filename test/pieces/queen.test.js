@@ -1,7 +1,7 @@
-import Queen from '../src/queen'
-import Square from '../src/square'
-import SquareSet from '../src/square_set'
-import GameState from '../src/game_state'
+import Queen from '../../src/pieces/queen'
+import Square from '../../src/square'
+import SquareSet from '../../src/square_set'
+import GameState from '../../src/game_state'
 
 describe("Queen", () => {
   describe("destinations", () => {

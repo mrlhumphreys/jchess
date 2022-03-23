@@ -1,5 +1,5 @@
 import PieceFactory from '../src/piece_factory'
-import Pawn from '../src/pawn'
+import Pawn from '../src/pieces/pawn'
 
 describe("PieceFactory", () => {
   describe("build", () => {

@@ -1,10 +1,10 @@
 import fixtures from './fixtures'
 import SquareSet from '../src/square_set'
 import Square from '../src/square'
-import Rook from '../src/rook'
-import King from '../src/king'
-import Pawn from '../src/pawn'
-import Knight from '../src/knight'
+import Rook from '../src/pieces/rook'
+import King from '../src/pieces/king'
+import Pawn from '../src/pieces/pawn'
+import Knight from '../src/pieces/knight'
 import GameState from '../src/game_state'
 
 describe('SquareSet', () => {

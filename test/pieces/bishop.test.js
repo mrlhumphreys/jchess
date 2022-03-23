@@ -1,8 +1,8 @@
-import Bishop from '../src/bishop'
-import Pawn from '../src/pawn'
-import Square from '../src/square'
-import SquareSet from '../src/square_set'
-import GameState from '../src/game_state'
+import Bishop from '../../src/pieces/bishop'
+import Pawn from '../../src/pieces/pawn'
+import Square from '../../src/square'
+import SquareSet from '../../src/square_set'
+import GameState from '../../src/game_state'
 
 describe('Bishop', () => { 
   describe('destinations', () => { 
