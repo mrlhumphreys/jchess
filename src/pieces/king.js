@@ -1,7 +1,7 @@
 import { compact } from '../utils'
 import Piece from './piece'
 import SquareSet from '../square_set'
-import Vector from '../vector'
+import { Vector } from '@mrlhumphreys/jboardgame'
 
 /** A king piece */
 class King extends Piece {

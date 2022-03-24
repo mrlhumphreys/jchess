@@ -1,5 +1,5 @@
 import Square from '../src/square'
-import Point from '../src/point'
+import { Point } from '@mrlhumphreys/jboardgame'
 import Rook from '../src/pieces/rook'
 import Queen from '../src/pieces/queen'
 

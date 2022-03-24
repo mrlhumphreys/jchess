@@ -1,5 +1,5 @@
 import { exists } from './utils'
-import Point from './point'
+import { Point } from '@mrlhumphreys/jboardgame'
 import PieceFactory from './piece_factory'
 
 import {

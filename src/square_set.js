@@ -35,10 +35,10 @@ import {
   occupiedByPiece,
   excludingPiece,
   unblocked,
-  between
+  between,
+  Vector
 } from '@mrlhumphreys/jboardgame';
 import Square from './square'
-import Vector from './vector'
 
 /** A Set of squares */
 class SquareSet {

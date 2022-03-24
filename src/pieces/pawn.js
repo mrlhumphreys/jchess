@@ -1,6 +1,6 @@
 import { exists } from '../utils'
 import Piece from './piece'
-import Vector from '../vector'
+import { Vector } from '@mrlhumphreys/jboardgame'
 
 /** A pawn piece. Moves forward 1 or two squares. */
 class Pawn extends Piece {

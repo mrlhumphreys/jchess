@@ -2,7 +2,7 @@
   "name": "@mrlhumphreys/jchess",
   "author": "Mark Humphreys <mark@mrlhumphreys.com> (https://github.com/mrlhumphreys)",
   "description": "Chess game state and move validation",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "lib/index.js",
   "keywords": [
     "Chess",
@@ -31,6 +31,6 @@
     "jest": "^24.1.0"
   },
   "dependencies": {
-    "@mrlhumphreys/jboardgame": "2.0.3"
+    "@mrlhumphreys/jboardgame": "2.0.10"
   }
 }

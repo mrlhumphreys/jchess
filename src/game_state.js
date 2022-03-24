@@ -1,6 +1,6 @@
 import { exists } from './utils'
 import SquareSet from './square_set'
-import Vector from './vector'
+import { Vector } from '@mrlhumphreys/jboardgame'
 
 /** A Chess Game State */
 class GameState {
