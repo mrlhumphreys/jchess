@@ -2,6 +2,16 @@ import Piece from '../../src/pieces/piece'
 import Rook from '../../src/pieces/rook'
 
 describe("Piece", () => {
+  describe('clone', () => {
+    it('must return a clone of the piece', () => {
+      let piece = new Piece({id: 0, player_number: 0, type: 'unicorn'});
+      let clone = piece.clone();
+      expect(clone.id).toEqual(piece.id);
+      expect(clone.playerNumber).toEqual(piece.playerNumber);
+      expect(clone.type).toEqual(piece.type);
+    })
+  });
+
   describe('asJson', () => {
     it('must return a piece as json', () => {
       let piece = new Piece({id: 0, player_number: 0, type: 'unicorn'});

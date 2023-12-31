@@ -67,6 +67,19 @@ class Square {
   }
 
   /**
+   * Clone the square
+   * @return {Square}
+   */
+  clone() {
+    return new Square({
+      id: this.id,
+      x: this.x,
+      y: this.y,
+      piece: exists(this.piece) ? this.piece.clone() : null
+    });
+  }
+
+  /**
    * Is the square in the pawn row for that player?
    * @param {number} playerNumber
    * @return {boolean}

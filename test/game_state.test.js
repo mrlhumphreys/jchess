@@ -9,6 +9,15 @@ import SquareSet from '../src/square_set'
 import fixtures from './fixtures'
 
 describe("GameState", () => {
+  describe('clone', () => {
+    it('must return a clone of the game state', () => {
+      let gameState = fixtures('gameState');
+      let clone = gameState.clone();
+      expect(clone.currentPlayerNumber).toEqual(gameState.currentPlayerNumber);
+      expect(clone.squares).toEqual(gameState.squares);
+    });
+  });
+
   describe('asJson', () => {
     it('must return game state as json', () => {
       let gameState = fixtures('gameState');
@@ -317,6 +326,13 @@ describe("GameState", () => {
       });
     });
 
+    describe('king is under attack and cannot move, but other pieces can block check', () => {
+      it('must return true', () => {
+        let gameState = fixtures('checkmateCanBlock');
+        expect(gameState.inCheckmate(1)).toBe(false);
+      });
+    });
+
     describe('king is free to move', () => {
       it('must return false', () => {
         let gameState = fixtures('gameState');
@@ -337,6 +353,22 @@ describe("GameState", () => {
       it('must return false', () => {
         let gameState = fixtures('gameState');
         expect(gameState.nonKingPiecesCannotMove(1)).toBe(false);
+      });
+    });
+  });
+
+  describe('nonKingPiecesCannotBlock', () => {
+    describe('non king pieces can step in front of check', () => {
+      it('must return false', () => {
+        let gameState = fixtures('checkmateCanBlock');
+        expect(gameState.nonKingPiecesCannotBlock(1)).toBe(false);
+      });
+    });
+
+    describe('non king pieces cannot step in front of check', () => {
+      it('must return true', () => {
+        let gameState = fixtures('checkmateGameState');
+        expect(gameState.nonKingPiecesCannotBlock(1)).toBe(true);
       });
     });
   });

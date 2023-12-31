@@ -23,6 +23,18 @@ class GameState {
   }
 
   /**
+   * Clone the game state
+   * @return {GameState}
+   */
+  clone() {
+    return new GameState({
+      current_player_number: this.currentPlayerNumber,
+      squares: this.squares.clone(),
+      last_double_step_pawn_id: this.lastDoubleStepPawnId
+    });
+  }
+
+  /**
    * The game state serialized as simple objects.
    * @return {Object}
    */
@@ -140,7 +152,7 @@ class GameState {
    * @return {boolean}
    */
   inCheckmate(playerNumber) {
-    return (this.inCheck(playerNumber) || this.nonKingPiecesCannotMove(playerNumber)) && this.kingCannotMove(playerNumber);
+    return this.inCheck(playerNumber) && this.kingCannotMove(playerNumber) && this.nonKingPiecesCannotBlock(playerNumber);
   } 
 
   /**
@@ -162,6 +174,21 @@ class GameState {
   nonKingPiecesCannotMove(playerNumber) {
     return this.squares.occupiedByPlayer(playerNumber).excludingPiece('king').every((s) => { 
       return s.piece.destinations(s, this).none();
+    });
+  }
+
+  /**
+   * Are non king pieces owned by the player unable to prevent checkmate?
+   * @param {number} playerNumber - The number of the player.
+   * @return {boolean}
+   */
+  nonKingPiecesCannotBlock(playerNumber) {
+    return this.squares.occupiedByPlayer(playerNumber).excludingPiece('king').every((from) => {
+      return from.piece.destinations(from, this).every((to) => {
+          let newState = this.clone();
+          newState.move(from, to);
+          return newState.inCheck(playerNumber);
+      });
     });
   }
 

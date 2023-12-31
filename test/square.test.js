@@ -4,6 +4,17 @@ import Rook from '../src/pieces/rook'
 import Queen from '../src/pieces/queen'
 
 describe('Square', () => {
+  describe('clone', () => {
+    it('must return a clone of square', () => {
+      let square = new Square({id: 'a7', x: 0, y: 1, piece: null});
+      let clone = square.clone();
+      expect(clone.id).toEqual(square.id);
+      expect(clone.x).toEqual(square.x);
+      expect(clone.y).toEqual(square.y);
+      expect(clone.piece).toEqual(square.piece);
+    });
+  });
+
   describe('startingFor', () => {
     it('must return true if the rank is 2', () => {
       let square = new Square({id: 'a7', x: 0, y: 1, piece: null});

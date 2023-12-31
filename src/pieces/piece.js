@@ -37,6 +37,21 @@ class Piece {
     this.type = args.type;
   }
 
+  /**
+   * Clone the piece
+   * @return {Piece}
+   */
+  clone() {
+    return new Piece({
+      constructorName: this.constructorName,
+      player_number: this.playerNumber,
+      selected: this.selected,
+      id: this.id,
+      has_moved: this.hasMoved,
+      type: this.type
+    });
+  }
+
   /** 
    * The piece serialized as a simple object.
    * @return {Object}

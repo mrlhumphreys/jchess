@@ -45,6 +45,16 @@ describe('SquareSet', () => {
     });
   });
 
+  describe('clone', () => {
+    it('must clone square set', () => {
+      let squareA = new Square({id: 'a6', x: 0, y: 2, piece: null});
+      let squareB = new Square({id: 'a4', x: 0, y: 4, piece: null});
+      let squareSet = new SquareSet({squares: [squareA, squareB]});
+      let clone = squareSet.clone();
+      expect(clone.squares).toEqual(squareSet.squares);
+    });
+  });
+
   // finders
 
   describe('findKingForPlayer', () => {

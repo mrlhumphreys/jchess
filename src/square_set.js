@@ -49,7 +49,7 @@ class SquareSet {
    */
   constructor(args) { 
     /** @member {Square[]} */
-    this.squares = args.squares.map(function(s) {
+    this.squares = args.squares.filter(function(s) { return s !== undefined; }).map(function(s) {
       if (s.constructorName === 'Square') {
         return s;
       } else {
@@ -164,6 +164,16 @@ class SquareSet {
 
     /** @member {Function} */
     this.between = between;
+  }
+
+  /**
+   * Clone the SquareSet
+   * @return {SquareSet}
+   */
+  clone() {
+    return new SquareSet({
+      squares: this.squares.map((s) => { return s.clone(); })
+    });
   }
 
   // finders
